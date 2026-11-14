@@ -22,6 +22,16 @@ dist/
 build/
 *.spec
 
+# 本机运行材料：从发行包复用，体积以 GB 计，不进 git
+runtime/
+_internal/
+短片工厂.exe
+使用说明.txt
+短片工厂-使用指南.md
+release-manifest.json
+licenses/WebView2/
+tools/motion_design/package_app.py
+
 # 用户数据与运行时产物
 projects/
 remotion-composer/out/
