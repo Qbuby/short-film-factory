@@ -33,8 +33,8 @@
 <a class="skip-link" href="#main">跳到工作区</a>
 <div class="studio">
   <aside class="rail" aria-label="工作室导航">
-    <a class="brand" href="#new" aria-label="短片工厂首页"><svg class="icon brand-icon"><use href="#i-mark"/></svg><span>短片工厂<small>OPENMONTAGE</small></span></a>
-    <div class="rail-label">WORKSPACE</div>
+    <a class="brand" href="#new" aria-label="短片工厂首页"><svg class="icon brand-icon"><use href="#i-mark"/></svg><span>短片工厂</span></a>
+    <div class="rail-label"></div>
     <nav>
       <button class="nav-item on" data-view="new" aria-current="page" title="新建短片"><svg class="icon"><use href="#i-plus"/></svg><span>新建短片</span><kbd>N</kbd></button>
       <button class="nav-item" data-view="edit" title="剪辑"><svg class="icon"><use href="#i-film"/></svg><span>剪辑</span></button>
@@ -59,7 +59,7 @@
       <main id="main" tabindex="-1">
         <div id="healthError" class="notice error" hidden><span id="healthErrorText"></span><button id="retryHealth" class="text-button">重新连接</button></div>
         <section id="taskPanel" class="task-panel" aria-label="生产任务" hidden>
-          <div class="task-heading"><div><span class="eyebrow">PRODUCTION</span><h2 id="taskTitle">生成短片</h2></div><span id="taskState" class="task-state" role="status" aria-live="polite"></span></div>
+          <div class="task-heading"><div><h2 id="taskTitle">生成短片</h2></div><span id="taskState" class="task-state" role="status" aria-live="polite"></span></div>
           <div class="task-meta"><span id="taskProject"></span><span id="elapsed"></span></div>
           <ol id="taskStages" class="stage-track" aria-label="生产阶段"></ol>
           <div id="taskMessage" class="hint" role="status"></div>
@@ -67,9 +67,9 @@
           <details id="taskDetails"><summary>查看运行日志</summary><pre id="log" class="log" tabindex="0"></pre></details>
         </section>
         <section id="newView" class="view" aria-labelledby="newHeading">
-          <div class="page-heading"><div><div class="eyebrow">CREATE A FILM</div><h1 id="newHeading">让好内容，成为好短片<span class="coral">。</span></h1><p>放入素材，选定视觉语言。其余交给创作管线。</p></div><span class="edition">STUDIO<br><b>01 / CREATE</b></span></div>
+          <div class="page-heading"><div><h1 id="newHeading">生成短片</h1><p>填入内容素材，选好风格和参数，然后生成。</p></div></div>
           <section id="guide" class="guide" aria-labelledby="guideHeading">
-            <div class="guide-head"><span class="eyebrow">HOW IT WORKS</span><button id="guideClose" class="icon-button" title="收起引导" aria-label="收起引导"><svg class="icon"><use href="#i-close"/></svg></button></div>
+            <div class="guide-head"><strong>三步做出短片</strong><button id="guideClose" class="icon-button" title="收起引导" aria-label="收起引导"><svg class="icon"><use href="#i-close"/></svg></button></div>
             <h2 id="guideHeading" class="sr-only">三步做出短片</h2>
             <ol class="guide-steps">
               <li class="guide-step" data-guide="source"><span class="guide-num">1</span><div><strong>放入素材</strong><small>粘贴文章正文，或贴一个链接自动解析。只用你给的事实。</small></div></li>
@@ -79,7 +79,7 @@
           </section>
           <button id="guideRestore" class="guide-restore" hidden><svg class="icon"><use href="#i-mark"/></svg>显示「三步做出短片」引导</button>
           <section class="source-section" aria-labelledby="sourceHeading">
-            <div class="section-heading"><h2 id="sourceHeading"><span class="section-number">01</span>内容素材</h2><span id="sourceCount" class="micro">从真实内容开始</span></div>
+            <div class="section-heading"><h2 id="sourceHeading">内容素材</h2><span id="sourceCount" class="micro">写什么就讲什么，不编造</span></div>
             <label class="sr-only" for="title">片名</label><input id="title" class="title-input" type="text" maxlength="160" placeholder="给这支短片起个名字" autocomplete="off">
             <div class="url-row"><svg class="icon"><use href="#i-link"/></svg><label class="sr-only" for="url">素材链接</label><input type="url" id="url" placeholder="粘贴文章或视频链接" autocomplete="off"><button id="btnParse" class="small-button">解析链接<svg class="icon"><use href="#i-arrow"/></svg></button></div>
             <p id="parseMsg" class="hint" role="status" aria-live="polite">支持公众号、抖音、B 站、小红书、视频号、YouTube 等来源</p>
@@ -87,14 +87,14 @@
             <div class="source-foot"><svg class="icon"><use href="#i-file"/></svg><span>只使用你提供的事实，不编造数字。</span><span class="micro">文字 / 链接</span></div>
           </section>
           <section class="style-section" aria-labelledby="styleHeading">
-            <div class="section-heading"><h2 id="styleHeading"><span class="section-number">02</span>视觉风格</h2><span class="micro">每种5秒 · 悬停循环播放</span></div>
+            <div class="section-heading"><h2 id="styleHeading">视觉风格</h2><span class="micro">16 种 · 悬停预览</span></div>
             <div id="catalogError" class="notice error" hidden><span id="catalogErrorText"></span><button id="retryCatalog" class="text-button">重新加载风格与参数</button></div>
-            <div id="selectedStyle" class="selected-style"><div class="sample-stage" id="selectedPreview" tabindex="0" role="group" aria-label="所选风格的5秒演示，悬停或按回车播放"><span class="micro">5s · 风格演示</span><img id="styleImage" alt="" hidden><video id="styleVideo" class="tile-video" muted loop playsinline preload="none" aria-hidden="true"></video><span id="styleImageFallback" class="image-fallback">正在加载风格样张</span></div><div class="style-description"><div class="eyebrow">SELECTED DIRECTION</div><h3 id="styleName">正在载入风格</h3><p id="styleFeel">每一种视觉语言，都有自己的表达方式。</p><p id="styleBest" class="hint"></p><span id="styleBackend" class="availability">等待服务数据</span><p class="micro sample-note">人工编排的风格演示，不是当前项目成片。</p></div></div>
+            <div id="selectedStyle" class="selected-style"><div class="sample-stage" id="selectedPreview" tabindex="0" role="group" aria-label="所选风格的5秒演示，悬停或按回车播放"><span class="micro">演示</span><img id="styleImage" alt="" hidden><video id="styleVideo" class="tile-video" muted loop playsinline preload="none" aria-hidden="true"></video><span id="styleImageFallback" class="image-fallback">正在加载风格样张</span></div><div class="style-description"><h3 id="styleName">正在载入风格</h3><p id="styleFeel">选择一种画面风格。</p><p id="styleBest" class="hint"></p><span id="styleBackend" class="availability">等待服务数据</span><p class="micro sample-note">人工编排的风格演示，不是当前项目成片。</p></div></div>
             <details id="styleGallery" class="gallery"><summary><span>浏览全部风格 <span id="styleCount" class="count"></span></span><svg class="icon"><use href="#i-chevron"/></svg></summary><div id="styles" class="style-grid" aria-label="选择视觉风格"></div></details>
           </section>
         </section>
         <section id="worksView" class="view" aria-labelledby="worksHeading" hidden>
-          <div class="page-heading"><div><div class="eyebrow">YOUR FILM LIBRARY</div><h1 id="worksHeading">作品库<span class="coral">。</span></h1><p>每一次创作，都有迹可循。</p></div><button id="refreshArchive" class="small-button"><svg class="icon"><use href="#i-refresh"/></svg>刷新</button></div>
+          <div class="page-heading"><div><h1 id="worksHeading">作品库</h1><p>查看项目、成片、评审结果和项目文件。</p></div><button id="refreshArchive" class="small-button"><svg class="icon"><use href="#i-refresh"/></svg>刷新</button></div>
           <div id="archiveMsg" class="notice" role="status"></div><button id="retryArchive" class="small-button" hidden>重新加载作品</button><div id="archive" class="archive"></div>
           <section id="resultStep" class="result-section" aria-labelledby="resultHeading" hidden>
             <div class="section-heading"><h2 id="resultHeading">作品详情</h2><span id="projectName" class="micro mono"></span></div><p id="projectError" class="notice error" role="status" hidden></p>
@@ -104,11 +104,11 @@
           </section>
         </section>
         <section id="editView" class="view" aria-labelledby="editHeading" hidden>
-          <div class="page-heading"><div><div class="eyebrow">EDIT FROM YOUR OWN FOOTAGE</div><h1 id="editHeading">用你的素材剪一条<span class="coral">。</span></h1><p>素材留在原处，只登记路径。写一句需求，锁定要用的片段，再剪出成片。</p></div><span class="edition">STUDIO<br><b>02 / EDIT</b></span></div>
+          <div class="page-heading"><div><h1 id="editHeading">剪辑</h1><p>登记素材路径，写清需求，锁定片段后剪出成片。</p></div></div>
 
           <div id="editMissing" class="notice error" hidden><span id="editMissingText"></span></div>
           <section class="source-section" aria-labelledby="editLibHeading">
-            <div class="section-heading"><h2 id="editLibHeading"><span class="section-number">01</span>素材库</h2><span id="editLibCount" class="micro">尚未登记</span></div>
+            <div class="section-heading"><h2 id="editLibHeading">素材库</h2><span id="editLibCount" class="micro">尚未登记</span></div>
             <p class="hint">粘贴本机文件/文件夹的绝对路径，一行一个；也可以把文件拖到下面。原文件不会被复制或移动。</p>
             <label class="sr-only" for="editPaths">素材路径</label>
             <textarea id="editPaths" rows="3" placeholder="C:\Users\你\Videos\旅行&#10;D:\素材\产品镜头"></textarea>
@@ -121,7 +121,7 @@
           </section>
 
           <section class="source-section" aria-labelledby="editNeedHeading">
-            <div class="section-heading"><h2 id="editNeedHeading"><span class="section-number">02</span>这一条要什么</h2><span class="micro">需求 → 锁定片段</span></div>
+            <div class="section-heading"><h2 id="editNeedHeading">剪辑需求</h2><span class="micro">按语义锁定片段</span></div>
             <label class="sr-only" for="editRequirement">剪辑需求</label>
             <textarea id="editRequirement" rows="3" placeholder="例如：用海边黄昏的开头，接三段产品特写，节奏快一点，做成 15 秒"></textarea>
             <div class="url-row"><label class="sr-only" for="editDuration">目标时长</label><input type="number" id="editDuration" min="1" max="120" step="1" value="15"><span class="micro">秒</span><button id="btnPlan" class="small-button">锁定素材<svg class="icon"><use href="#i-arrow"/></svg></button></div>
@@ -130,7 +130,7 @@
           </section>
 
           <section class="source-section" aria-labelledby="editTlHeading">
-            <div class="section-heading"><h2 id="editTlHeading"><span class="section-number">03</span>时间轴</h2><span id="editTotal" class="micro">—</span></div>
+            <div class="section-heading"><h2 id="editTlHeading">时间轴</h2><span id="editTotal" class="micro">—</span></div>
             <div id="editTimeline" class="edit-timeline"><div class="empty-state">还没有时间轴。先在上面写需求，点「锁定素材」。</div></div>
             <label class="micro"><input type="checkbox" id="editAllowWeb" checked> 本地没有符合需求的素材时，联网找明确可商用 / 公有领域的素材（不拉别人视频平台的内容）</label>
             <div id="editTlActions" class="edit-row" hidden><button id="btnEditSave" class="small-button">保存时间轴</button><button id="btnEditPreview" class="small-button">出预览</button><button id="btnEditRender" class="primary">出成片</button></div>
@@ -139,13 +139,13 @@
           </section>
         </section>
         <section id="settingsView" class="view settings-view" aria-labelledby="settingsHeading" hidden>
-          <div class="page-heading"><div><div class="eyebrow">MODEL CONNECTION</div><h1 id="settingsHeading">创作引擎<span class="coral">。</span></h1><p>连接文本模型，让素材变成有结构的脚本。</p></div></div>
+          <div class="page-heading"><div><h1 id="settingsHeading">模型设置</h1><p>连接 OpenAI 兼容的文本模型，用于写稿、素材理解和剪辑规划。</p></div></div>
           <div class="settings-note"><svg class="icon"><use href="#i-sliders"/></svg><div><strong>模型只用于自动写稿</strong><p>不配置模型也能使用「纯文字排版」。该模式按原文分句、逐屏呈现，不自动配内容画面。</p></div></div>
           <form id="settingsForm" autocomplete="off"><div class="field"><label for="setBase">API 地址</label><input type="url" id="setBase" placeholder="OpenAI 兼容 API 地址" autocomplete="off" required></div><div class="field"><label for="setModel">模型名称</label><input type="text" id="setModel" placeholder="服务商提供的模型标识" required></div><div class="field"><label for="setKey">API Key <span id="keyState" class="micro">未读取</span></label><input type="password" id="setKey" autocomplete="new-password" spellcheck="false" placeholder="输入密钥"><p class="hint">密钥不会回显。已有密钥时，留空表示保留。</p></div><div class="settings-actions"><button type="submit" id="btnSaveSettings" class="primary">保存设置</button><button type="button" id="btnTest" class="small-button">测试连接</button><button type="button" id="retrySettings" class="text-button">重新读取</button></div><p id="setHint" class="notice" role="status" aria-live="polite">正在读取模型状态…</p></form>
         </section>
       </main>
       <aside class="inspector" aria-labelledby="inspectorHeading">
-        <div class="inspector-title"><div><span class="eyebrow">FILM SETTINGS</span><h2 id="inspectorHeading">出片参数</h2></div><svg class="icon"><use href="#i-sliders"/></svg></div>
+        <div class="inspector-title"><div><h2 id="inspectorHeading">出片参数</h2></div><svg class="icon"><use href="#i-sliders"/></svg></div>
         <div class="inspector-scroll"><fieldset id="parameters" disabled>
           <section class="parameter-group"><h3>制作档位</h3><div class="field"><label id="tierLabel">品质与速度</label><div id="pTier" class="tier-cards" role="radiogroup" aria-labelledby="tierLabel"></div><p id="tierHint" class="hint"></p></div></section>
           <section class="parameter-group"><h3>内容与叙事</h3><div class="field"><label>视频类型</label><div id="pNarration" class="seg" role="group" aria-label="视频类型"></div></div><div class="field"><label for="pType">叙事风格</label><select id="pType"></select><p id="typeHint" class="hint"></p></div><div class="field"><label for="pDuration">目标时长</label><div class="duration-row"><input type="number" id="pDuration" min="1" max="120" step="1" value="30"><span>秒 <span id="durationRange" class="micro">/ 最长 120 秒</span></span></div><p id="durationHint" class="hint" role="status"></p></div></section>
@@ -153,7 +153,7 @@
           <section class="parameter-group"><h3>声音</h3><div class="field"><label for="pVoice">配音音色</label><div class="voice-row"><select id="pVoice"></select><button id="btnAudition" class="icon-button" title="试听音色" aria-label="试听音色"><svg class="icon"><use href="#i-play"/></svg></button></div><p id="voiceHint" class="hint" role="status" aria-live="polite"></p></div><button id="drop" class="audio-drop" type="button"><svg class="icon"><use href="#i-audio"/></svg><span><strong>使用自己的录音</strong><small>点击或拖入 WAV / MP3，最大 60 MB</small></span></button><input id="file" type="file" accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac" hidden><div id="audioSelection" class="audio-selection" hidden><span id="fileName"></span><button id="removeAudio" class="icon-button" title="移除录音" aria-label="移除录音"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="uploadHint" class="hint" role="status">可选。上传录音后，画面将与真实语速对齐。</p></section>
           <section class="parameter-group writing"><h3>写稿方式</h3><label class="check-row"><input id="offline" type="checkbox"><span>纯文字排版<small>不使用模型，按原文逐屏呈现</small></span></label><p id="settingsWarning" class="hint"></p></section>
         </fieldset></div>
-        <footer class="generate-footer"><div class="output-label"><span>OUTPUT</span><span id="outputMode">新建项目</span></div><p id="paramHint" class="output-summary">正在加载出片规格…</p><p id="goHint" class="hint" role="status" aria-live="polite">正在检查本地服务</p><button id="go" class="primary generate" disabled><span>生成短片</span><svg class="icon"><use href="#i-arrow"/></svg></button><span class="footer-note">本机渲染 · 每次生成创建独立项目</span></footer>
+        <footer class="generate-footer"><div class="output-label"><span>输出</span><span id="outputMode">新建项目</span></div><p id="paramHint" class="output-summary">正在加载出片规格…</p><p id="goHint" class="hint" role="status" aria-live="polite">正在检查本地服务</p><button id="go" class="primary generate" disabled><span>生成短片</span><svg class="icon"><use href="#i-arrow"/></svg></button><span class="footer-note">本机渲染 · 每次生成创建独立项目</span></footer>
       </aside>
     </div>
   </div>

@@ -214,8 +214,8 @@
   }
   function renderStyles() {
     for (const element of [...previews.entries.keys()]) previews.unregister(element);
-    $('#styleCount').textContent = `${state.styles.length} 种 · 每段5秒`;
-    $('#styles').innerHTML = state.styles.map((style, i) => `<button class="style-tile" type="button" data-style="${esc(style.id)}" aria-pressed="${state.style === style.id}" aria-label="${esc(style.zh)}，悬停播放5秒风格演示"><span class="tile-image"><img src="/styles/${encodeURIComponent(style.id)}.png" loading="lazy" alt="${esc(style.zh)}风格演示封面"><video class="tile-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"><source src="/styles/${encodeURIComponent(style.id)}.mp4" type="video/mp4"></video><span class="image-fallback" hidden>封面暂不可用</span><span class="tile-play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span></span><span class="tile-caption">${esc(style.zh)}<small>${String(i+1).padStart(2,'0')} · 5秒 / 悬停预览</small></span></button>`).join('');
+    $('#styleCount').textContent = `${state.styles.length} 种`;
+    $('#styles').innerHTML = state.styles.map((style) => `<button class="style-tile" type="button" data-style="${esc(style.id)}" aria-pressed="${state.style === style.id}" aria-label="${esc(style.zh)}，悬停播放风格演示"><span class="tile-image"><img src="/styles/${encodeURIComponent(style.id)}.png" loading="lazy" alt="${esc(style.zh)}风格演示封面"><video class="tile-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"><source src="/styles/${encodeURIComponent(style.id)}.mp4" type="video/mp4"></video><span class="image-fallback" hidden>封面暂不可用</span><span class="tile-play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span></span><span class="tile-caption">${esc(style.zh)}</span></button>`).join('');
     $$('#styles .style-tile').forEach(tile => previews.register(tile, {
       video: tile.querySelector('video'), poster: tile.querySelector('img'), fallback: tile.querySelector('.image-fallback'),
       isEnabled: () => state.view === 'new' && $('#styleGallery').open,
@@ -226,8 +226,8 @@
   function applyStyleHint() {
     const style = state.styles.find(item => item.id === state.style); if (!style) return;
     $('#styleName').textContent = style.zh; $('#styleFeel').textContent = style.feel || '';
-    $('#styleBest').textContent = style.best_for ? `适合 · ${style.best_for}` : '';
-    $('#styleBackend').textContent = canRender(style) ? '已接入一键出片' : '渲染后端尚未接入';
+    $('#styleBest').textContent = style.best_for ? `适合：${style.best_for}` : '';
+    $('#styleBackend').textContent = canRender(style) ? '可生成' : '渲染后端尚未接入';
     $('#styleBackend').classList.toggle('unavailable', !canRender(style));
     const stage = $('#selectedPreview');
     previews.unregister(stage);
@@ -339,11 +339,11 @@
     const offlineNote = rounds && $('#offline').checked ? '纯文字排版不调用模型,本档复审不会执行。' : '';
     const quality = Number(rule.sfx_min_ratio || 0) > 0 ? `音效落点需达到 ${Math.round(Number(rule.sfx_min_ratio) * 100)}%` : '音效落点不额外要求';
     message('#tierHint', tier.desc ? `${tier.desc}。复审改稿 ${rounds} 轮,${strict},${quality}。${offlineNote}` : '');
-    $('#sourceCount').textContent = $('#source').value.length ? `${$('#source').value.length.toLocaleString()} 字符` : '从真实内容开始';
+    $('#sourceCount').textContent = $('#source').value.length ? `${$('#source').value.length.toLocaleString()} 字` : '不编造数字';
     $('#paramHint').textContent = state.catalog ? `${sp.duration || '—'}s · ${ratio} · ${sp.resolution.toUpperCase()} · ${sp.fps}fps · ${tierSpec().zh || '标准'}\n${sp.silent ? '无口播' : state.audio ? '真人录音' : 'AI 配音'} / ${type?.zh || sp.video_type}` : '正在加载出片规格…';
     $('#settingsWarning').textContent = $('#offline').checked ? '原文分句排版，不自动配内容画面。' : state.settings === 'error' ? '模型状态读取失败；素材解析仍可单独使用。' : state.configured ? '已连接文本模型，依据素材自动写稿。' : '模型未配置。可前往设置，或启用纯文字排版。';
     const reason = blockingReason(); $('#go').disabled = Boolean(reason);
-    $('#goHint').textContent = reason || '参数已就绪 · 渲染耗时取决于规格与本机性能';
+    $('#goHint').textContent = reason || '参数已就绪，可以生成';
     $('#goHint').classList.toggle('error-text', !state.health || Boolean(error));
     updateGuide();
     const locked = Boolean(state.pending || state.activeTask || state.uncertain || state.projectLoading || state.editorSaving);
@@ -716,6 +716,8 @@
     previews.stopAll();
     stopAudition(); if (state.project && view!=='works') $('#video').pause();
     state.view=view;
+    // 剪辑页不使用「出片参数」面板,加个类让主区占满宽度。
+    document.querySelector('.studio')?.classList.toggle('editing', view==='edit');
     for (const key of ['new','edit','works','settings']) $(`#${key}View`).hidden=key!==view;
     $$('.nav-item').forEach(button=>{const on=button.dataset.view===view;button.classList.toggle('on',on); if(on)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
     $('#viewLabel').textContent={new:'新建短片',edit:'剪辑',works:'作品库',settings:'模型设置'}[view];
