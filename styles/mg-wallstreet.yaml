@@ -1,0 +1,104 @@
+# 由风格提示词机器转换而来 —— 23-wallstreet.md
+# 风格原文:lib/motion_design/mgstyles/prompts/23-wallstreet.md
+# 转换脚本:tools/motion_design/build_style_playbooks.py
+identity:
+  name: "华尔街式财经解读 Wall Street Explainer（小Lin说 / 《AI到底有多烧钱》一路）"
+  category: "motion-graphics"
+  mood: "细斜纹深蓝织物底, 唯一底色, 奶油金渐变大数字"
+  pace: "fast"
+  best_for: "Code-first 动效短片;可与其他风格混合或作为新风格的起点"
+visual_language:
+  color_palette:
+    primary:
+      - "#101C2E"
+      - "#0B1422"
+    accent:
+      - "#F1EAD2"
+      - "#EFDC7A"
+      - "#FFD84A"
+    background: "#101C2E"
+    text: "#F8FAFC"
+    muted: "#94A3B8"
+  composition: "细斜纹深蓝织物底（唯一底色）、奶油金渐变大数字、白底原文/财报截图配荧光黄高亮、"
+  texture: "底色 `#101C2E → #0B1422`：45° 细斜纹（3px 间距、透明度 <0.06）+ 极淡颗粒"
+typography:
+  headings:
+    font: "Inter"
+    weight: 800
+    tracking: "-0.02em"
+  body:
+    font: "Inter"
+    weight: 400
+    line_height: 1.5
+  code:
+    font: "Fira Code"
+    weight: 400
+  stat_card:
+    font: "Inter"
+    weight: 800
+    size_multiplier: 4.0
+  scale_system: "perfect_fourth"
+  weight_matrix:
+    title: 800
+    heading: 700
+    body: 400
+    caption: 300
+motion:
+  transitions:
+    - shape-wipe
+    - element-fly
+    - cut
+  animation_style: "底色 `#101C2E → #0B1422`：45° 细斜纹（3px 间距、透明度 <0.06）+ 极淡颗粒"
+  pacing_rules:
+    min_scene_hold_seconds: 1.0
+    max_scene_hold_seconds: 4.0
+    text_card_hold_seconds: 2.0
+    stat_card_hold_seconds: 1.6
+    transition_duration_seconds: 0.3
+  entrance: "底色 `#101C2E → #0B1422`：45° 细斜纹（3px 间距、透明度 <0.06）+ 极淡颗粒"
+  exit: "弹性收束"
+audio:
+  voice_style: "简洁口语,每个短句一次落点"
+  music_mood: "程序化生成的节奏音乐"
+  music_volume: 0.14
+  sfx_style: "入场/转场/高潮各一个程序化音效,与画面对齐"
+  ducking_threshold_db: -4
+asset_generation:
+  image_prompt_prefix: "华尔街式财经解读 Wall Street Explainer（小Lin说 / 《AI到底有多烧钱》一路）, code-first motion design, "
+  image_negative_prompt: "照片素材,模板感,默认字体"
+  diagram_style: "由代码绘制的图形,品牌色一致"
+  consistency_anchors:
+    - 细斜纹深蓝织物底（唯一底色）、奶油金渐变大数字、白底原文/财报截图配荧光黄高亮、
+    - "底色 `#101C2E → #0B1422`：45° 细斜纹（3px 间距、透明度 <0.06）+ 极淡颗粒"
+quality_rules:
+  - 画面主体必须由代码绘制(禁止用静态图片 + 缩放转场凑数)
+  - 前 0.5 秒必须出现一个在动的元素
+  - 每个关键技法必须能在成片里被指出时间码
+  - "字幕/标题在竖屏安全区内,字号 ≥ 44px"
+  - 音频与画面命中点对齐(误差 ≤ 1 帧)
+  - "总时长精确等于设定值,无黑帧"
+chart_palette:
+  - "#101C2E"
+  - "#0B1422"
+  - "#F1EAD2"
+  - "#EFDC7A"
+  - "#FFD84A"
+  - "#F4F1EA"
+color_rules:
+  harmony_type: "triadic"
+  contrast_validation: true
+  colorblind_safe: true
+taste_profile:
+  design_read: "细斜纹深蓝织物底（唯一底色）、奶油金渐变大数字、白底原文/财报截图配荧光黄高亮、"
+  visual_variance: 7
+  motion_intensity: 8
+  information_density: 6
+  palette_discipline: "固定使用本风格色板:#101C2E, #0B1422, #F1EAD2, #EFDC7A, #FFD84A"
+  layout_variation: "版式随节拍变化,每镜只让一个主体动"
+  reference_strategy: "以  为技术路线"
+  anti_patterns:
+    - 静态图片加缩放转场
+    - 同屏多个主体同时运动
+    - 文字被裁切
+  quality_gates:
+    - "底色 `#101C2E → #0B1422`：45° 细斜纹（3px 间距、透明度 <0.06）+ 极淡颗粒"

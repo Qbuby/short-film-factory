@@ -1,0 +1,120 @@
+{
+ "resolutions": {
+  "480p": {
+   "id": "480p",
+   "zh": "480p 标清",
+   "short": 480,
+   "scale": 0.4444444444444444,
+   "crf": 28,
+   "desc": "480×852 起,最省流量,内容与风格不降级"
+  },
+  "720p": {
+   "id": "720p",
+   "zh": "720p 高清",
+   "short": 720,
+   "scale": 0.6666666666666666,
+   "crf": 25,
+   "desc": "720×1280 起,手机上看得清"
+  },
+  "1080p": {
+   "id": "1080p",
+   "zh": "1080p 全高清",
+   "short": 1080,
+   "scale": 1.0,
+   "crf": 23,
+   "desc": "1080×1920,主流发布规格"
+  },
+  "2k": {
+   "id": "2k",
+   "zh": "1440p QHD 超清",
+   "short": 1440,
+   "scale": 1.3333333333333333,
+   "crf": 20,
+   "desc": "1440×2560,大屏/二次剪辑用,渲染最慢"
+  }
+ },
+ "fps": {
+  "24": {
+   "id": "24",
+   "zh": "24fps",
+   "desc": "电影感,文件小"
+  },
+  "30": {
+   "id": "30",
+   "zh": "30fps",
+   "desc": "主流平台标准"
+  },
+  "60": {
+   "id": "60",
+   "zh": "60fps",
+   "desc": "最顺滑,文件大一半"
+  }
+ },
+ "density_rules": {
+  "480p": {
+   "density": 2,
+   "transition": "slam"
+  },
+  "720p": {
+   "density": 2,
+   "transition": "slam"
+  },
+  "1080p": {
+   "density": 2,
+   "transition": "slam"
+  },
+  "2k": {
+   "density": 2,
+   "transition": "slam"
+  }
+ },
+ "max_duration": 120,
+ "min_duration": 1,
+ "tiers": {
+  "fast": {
+   "id": "fast",
+   "zh": "快速",
+   "desc": "高压缩、高并发,先确认内容和节奏",
+   "crf_delta": 5,
+   "concurrency": 6,
+   "script_rounds": 0,
+   "review": {
+    "dead_scale": 1.35,
+    "lufs_tol": 1.6,
+    "sfx_min_ratio": 0.0,
+    "black_tolerance": 0,
+    "silence_tolerance": 0
+   }
+  },
+  "standard": {
+   "id": "standard",
+   "zh": "标准",
+   "desc": "压缩与速度平衡,适合日常发布",
+   "crf_delta": 0,
+   "concurrency": 4,
+   "script_rounds": 1,
+   "review": {
+    "dead_scale": 1.0,
+    "lufs_tol": 1.0,
+    "sfx_min_ratio": 0.6,
+    "black_tolerance": 0,
+    "silence_tolerance": 0
+   }
+  },
+  "premium": {
+   "id": "premium",
+   "zh": "精品",
+   "desc": "低压缩、少并发,细节与节奏都更稳",
+   "crf_delta": -4,
+   "concurrency": 3,
+   "script_rounds": 3,
+   "review": {
+    "dead_scale": 0.7,
+    "lufs_tol": 0.6,
+    "sfx_min_ratio": 0.9,
+    "black_tolerance": 0,
+    "silence_tolerance": 0
+   }
+  }
+ }
+}

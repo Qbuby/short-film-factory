@@ -1,0 +1,220 @@
+{
+ "note": "短片工厂风格目录。backend=remotion 表示本工具可直接渲染；backend=harness 表示走 mg-styles-15 的逐帧代码管线（需要 AI 编程协作写 renderAt）。music: 配方与音量来自实测。",
+ "styles": [
+  {
+   "id": "mg-paperclip",
+   "file": "19-paperclip.md",
+   "zh": "粗描边贴纸科普",
+   "feel": "白粗描边贴纸、大字报、图章、纸纹",
+   "best_for": "警示、模因、快节奏科普、可转发的知识点",
+   "backend": "remotion:StickerFilm",
+   "status": "fast",
+   "music": {
+    "recipe": "fun:explainer",
+    "volume": 0.3
+   },
+   "example": "AI换脸盗号、AI泡沫"
+  },
+  {
+   "id": "mg-collage",
+   "file": "06-collage.md",
+   "zh": "剪报拼贴",
+   "feel": "撕纸、报纸排版、老照片、印章",
+   "best_for": "历史、财经、新闻史评",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "retro:vaporwave",
+    "volume": 0.28
+   },
+   "example": "英特尔崩盘、1973石油禁运"
+  },
+  {
+   "id": "mg-hud",
+   "file": "22-hud.md",
+   "zh": "科技 HUD",
+   "feel": "数据面板、扫描线、行情屏",
+   "best_for": "数据、行情、监控感",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "retro:darksynth",
+    "volume": 0.26
+   },
+   "example": "英特尔崩盘 HUD 版"
+  },
+  {
+   "id": "mg-flat-vector",
+   "file": "01-flat-vector.md",
+   "zh": "平面矢量科普",
+   "feel": "纯色大色块、几何角色、弹性入退场",
+   "best_for": "知识科普、产品介绍",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "fun:explainer",
+    "volume": 0.3
+   }
+  },
+  {
+   "id": "mg-line-art",
+   "file": "02-line-art.md",
+   "zh": "线稿手绘",
+   "feel": "白描线条、纸面、逐笔生长",
+   "best_for": "方法论、哲理、慢讲",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "chill:lofi",
+    "volume": 0.28
+   }
+  },
+  {
+   "id": "mg-isometric",
+   "file": "03-isometric.md",
+   "zh": "等距场景",
+   "feel": "2.5D 等距、小场景、流程图感",
+   "best_for": "流程、系统、工具讲解",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "fun:explainer",
+    "volume": 0.3
+   }
+  },
+  {
+   "id": "mg-3d-render",
+   "file": "04-3d-render.md",
+   "zh": "3D 渲染",
+   "feel": "PBR 材质、软胶质感、棚拍光",
+   "best_for": "产品、硬件、质感展示",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "chill:lofi",
+    "volume": 0.28
+   }
+  },
+  {
+   "id": "mg-cel-boil",
+   "file": "05-cel-boil.md",
+   "zh": "手绘 boiling",
+   "feel": "手绘线条抖动、赛璐璐上色",
+   "best_for": "故事、人物叙述",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "world:guofeng",
+    "volume": 0.28
+   }
+  },
+  {
+   "id": "mg-liquid",
+   "file": "07-liquid.md",
+   "zh": "液态流动",
+   "feel": "流体、形变、高光",
+   "best_for": "情绪、变化、趋势",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "chill:lofi",
+    "volume": 0.28
+   }
+  },
+  {
+   "id": "mg-morph",
+   "file": "08-morph.md",
+   "zh": "形变",
+   "feel": "A→B 连续形变",
+   "best_for": "转化、对比、演化",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "fun:explainer",
+    "volume": 0.3
+   }
+  },
+  {
+   "id": "mg-bauhaus",
+   "file": "09-bauhaus.md",
+   "zh": "包豪斯几何",
+   "feel": "原色几何、构成主义",
+   "best_for": "设计、原则、宣言",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "retro:chiptune",
+    "volume": 0.28
+   }
+  },
+  {
+   "id": "mg-synthwave",
+   "file": "10-synthwave.md",
+   "zh": "霓虹复古",
+   "feel": "霓虹、网格、落日",
+   "best_for": "科技、赛博、怀旧",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "retro:darksynth",
+    "volume": 0.26
+   }
+  },
+  {
+   "id": "mg-aurora-glass",
+   "file": "12-aurora-glass.md",
+   "zh": "极光玻璃",
+   "feel": "大色斑模糊、磨砂玻璃卡片",
+   "best_for": "氛围、品牌、高端感",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "chill:lofi",
+    "volume": 0.26
+   }
+  },
+  {
+   "id": "mg-hanazi",
+   "file": "18-hanazi.md",
+   "zh": "汉字视觉",
+   "feel": "大字报、笔画拆解、印章",
+   "best_for": "文字梗、成语、文化",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "world:guofeng",
+    "volume": 0.28
+   }
+  },
+  {
+   "id": "mg-pixel",
+   "file": "20-pixel.md",
+   "zh": "像素",
+   "feel": "像素画、扫描线、8bit",
+   "best_for": "游戏、复古、极客",
+   "backend": "remotion:StyleFilm",
+   "status": "advanced",
+   "music": {
+    "recipe": "retro:chiptune",
+    "volume": 0.28
+   },
+   "example": "像素游戏存档"
+  },
+  {
+   "id": "mg-wallstreet",
+   "file": "23-wallstreet.md",
+   "zh": "华尔街财经解读",
+   "feel": "深蓝细斜纹织物舞台、奶油金巨数、白底原文与荧光黄高亮、白边画框、克制 2.5D",
+   "best_for": "财经/科技解读、融资与估值、市场规模、成本结构、把一笔账讲清楚",
+   "backend": "playwright:wallstreet",
+   "status": "advanced",
+   "engine": "Playwright 逐帧渲染(window.ready/window.seek) + 实拍/新闻证据轨",
+   "music": {
+    "recipe": "chill:ambient",
+    "volume": 0.26
+   },
+   "example": "AI到底有多烧钱、谷歌给苹果的两百亿、打仗了黄金为什么反而跌",
+   "credit": "逐帧渲染器、实拍与新闻能力来自 HeyChengC/wallstreet-explainer (MIT);见 licenses/wallstreet-explainer-NOTICE.md"
+  }
+ ]
+}

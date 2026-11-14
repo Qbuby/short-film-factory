@@ -1,0 +1,103 @@
+# 由风格提示词机器转换而来 —— 12-aurora-glass.md
+# 风格原文:lib/motion_design/mgstyles/prompts/12-aurora-glass.md
+# 转换脚本:tools/motion_design/build_style_playbooks.py
+identity:
+  name: "弥散渐变 / 玻璃拟态 Gradient Blur (Aurora) & Glassmorphism"
+  category: "motion-graphics"
+  mood: "大色斑高斯模糊漂移, 磨砂玻璃卡片, px高光描边"
+  pace: "fast"
+  best_for: "Code-first 动效短片;可与其他风格混合或作为新风格的起点"
+visual_language:
+  color_palette:
+    primary:
+      - "#5EEAD4"
+      - "#A78BFA"
+    accent:
+      - "#F472B6"
+      - "#0B1026"
+      - "#E2E8F0"
+    background: "#0F172A"
+    text: "#F8FAFC"
+    muted: "#94A3B8"
+  composition: "大色斑高斯模糊漂移, 磨砂玻璃卡片, 1px高光描边, 邻近色低对比配色, 缓慢呼吸感节奏"
+  texture: "底层 aurora：3~5 个纯色大圆 blur 80~150px，各自沿贝塞尔路径 20~40 秒漂移循环，彼此 blend 出 mesh gradient 感"
+typography:
+  headings:
+    font: "Inter"
+    weight: 800
+    tracking: "-0.02em"
+  body:
+    font: "Inter"
+    weight: 400
+    line_height: 1.5
+  code:
+    font: "Fira Code"
+    weight: 400
+  stat_card:
+    font: "Inter"
+    weight: 800
+    size_multiplier: 4.0
+  scale_system: "perfect_fourth"
+  weight_matrix:
+    title: 800
+    heading: 700
+    body: 400
+    caption: 300
+motion:
+  transitions:
+    - shape-wipe
+    - element-fly
+    - cut
+  animation_style: "底层 aurora：3~5 个纯色大圆 blur 80~150px，各自沿贝塞尔路径 20~40 秒漂移循环，彼此 blend 出 mesh gradient 感"
+  pacing_rules:
+    min_scene_hold_seconds: 1.0
+    max_scene_hold_seconds: 4.0
+    text_card_hold_seconds: 2.0
+    stat_card_hold_seconds: 1.6
+    transition_duration_seconds: 0.3
+  entrance: "底层 aurora：3~5 个纯色大圆 blur 80~150px，各自沿贝塞尔路径 20~40 秒漂移循环，彼此 blend 出 mesh gradient 感"
+  exit: "弹性收束"
+audio:
+  voice_style: "简洁口语,每个短句一次落点"
+  music_mood: "ambient cinematic pad, soft shimmer, very subtle UI ticks."
+  music_volume: 0.14
+  sfx_style: "入场/转场/高潮各一个程序化音效,与画面对齐"
+  ducking_threshold_db: -4
+asset_generation:
+  image_prompt_prefix: "弥散渐变 / 玻璃拟态 Gradient Blur (Aurora) & Glassmorphism, code-first motion design, "
+  image_negative_prompt: "照片素材,模板感,默认字体"
+  diagram_style: "由代码绘制的图形,品牌色一致"
+  consistency_anchors:
+    - "大色斑高斯模糊漂移, 磨砂玻璃卡片, 1px高光描边, 邻近色低对比配色, 缓慢呼吸感节奏"
+    - 底层 aurora：3~5 个纯色大圆 blur 80~150px，各自沿贝塞尔路径 20~40 秒漂移循环，彼此 blend 出 mesh gradient 感
+quality_rules:
+  - 画面主体必须由代码绘制(禁止用静态图片 + 缩放转场凑数)
+  - 前 0.5 秒必须出现一个在动的元素
+  - 每个关键技法必须能在成片里被指出时间码
+  - "字幕/标题在竖屏安全区内,字号 ≥ 44px"
+  - 音频与画面命中点对齐(误差 ≤ 1 帧)
+  - "总时长精确等于设定值,无黑帧"
+chart_palette:
+  - "#5EEAD4"
+  - "#A78BFA"
+  - "#F472B6"
+  - "#0B1026"
+  - "#E2E8F0"
+color_rules:
+  harmony_type: "triadic"
+  contrast_validation: true
+  colorblind_safe: true
+taste_profile:
+  design_read: "大色斑高斯模糊漂移, 磨砂玻璃卡片, 1px高光描边, 邻近色低对比配色, 缓慢呼吸感节奏"
+  visual_variance: 7
+  motion_intensity: 8
+  information_density: 6
+  palette_discipline: "固定使用本风格色板:#5EEAD4, #A78BFA, #F472B6, #0B1026, #E2E8F0"
+  layout_variation: "版式随节拍变化,每镜只让一个主体动"
+  reference_strategy: "以 HTML WebGL: aurora mesh-gradient shader + glass refraction (SDF lens, chromatic dispersion) + DOM/CSS backdrop-filter gl 为技术路线"
+  anti_patterns:
+    - 静态图片加缩放转场
+    - 同屏多个主体同时运动
+    - 文字被裁切
+  quality_gates:
+    - 底层 aurora：3~5 个纯色大圆 blur 80~150px，各自沿贝塞尔路径 20~40 秒漂移循环，彼此 blend 出 mesh gradient 感

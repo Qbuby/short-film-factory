@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>短片工厂 · 创作工作室</title>
+  <link rel="stylesheet" href="/ui/film_ui.css">
+  <script src="/ui/style_preview_player.js" defer></script>
+  <script src="/ui/film_ui.js" defer></script>
+  <script src="/ui/film_ui_edit.js" defer></script>
+</head>
+<body>
+<svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14l6 3-6 3z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h6m4 0h6M4 17h10m4 0h2"/><circle cx="12" cy="7" r="2"/><circle cx="16" cy="17" r="2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 14 4-4m-6 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0)"/></symbol>
+  <symbol id="i-audio" viewBox="0 0 24 24"><path d="M4 10v4m4-8v12m4-15v18m4-15v12m4-8v4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 6a8 8 0 0 1 13 4M5 14a8 8 0 0 0 13 4"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4m10-8h4m-4 8h4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H5v18h14V8zM14 3v6h5M8 13h8m-8 4h6"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></symbol>
+</defs></svg>
+<a class="skip-link" href="#main">跳到工作区</a>
+<div class="studio">
+  <aside class="rail" aria-label="工作室导航">
+    <a class="brand" href="#new" aria-label="短片工厂首页"><svg class="icon brand-icon"><use href="#i-mark"/></svg><span>短片工厂<small>OPENMONTAGE</small></span></a>
+    <div class="rail-label">WORKSPACE</div>
+    <nav>
+      <button class="nav-item on" data-view="new" aria-current="page" title="新建短片"><svg class="icon"><use href="#i-plus"/></svg><span>新建短片</span><kbd>N</kbd></button>
+      <button class="nav-item" data-view="edit" title="剪辑"><svg class="icon"><use href="#i-film"/></svg><span>剪辑</span></button>
+      <button class="nav-item" data-view="works" title="作品库"><svg class="icon"><use href="#i-grid"/></svg><span>作品库</span></button>
+      <button class="nav-item" data-view="settings" title="模型设置"><svg class="icon"><use href="#i-sliders"/></svg><span>模型设置</span></button>
+    </nav>
+    <div class="rail-bottom"><span class="local-dot"></span><span>本地创作工作室<small id="versionLabel">正在连接服务</small></span><button id="shortcuts" class="shortcut-help" title="键盘快捷键" aria-label="键盘快捷键"><svg class="icon"><use href="#i-keyboard"/></svg></button></div>
+    <div id="shortcutsPanel" class="shortcuts" role="dialog" aria-label="键盘快捷键" hidden>
+      <div class="shortcuts-head"><strong>键盘快捷键</strong><button id="shortcutsClose" class="icon-button" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div>
+      <dl>
+        <dt><kbd>N</kbd></dt><dd>回到「新建短片」并聚焦片名</dd>
+        <dt><kbd>Tab</kbd></dt><dd>在风格库用方向键换风格,<kbd>Enter</kbd> 选中</dd>
+        <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>在制作档位之间切换</dd>
+        <dt><kbd>Esc</kbd></dt><dd>停止试听 / 收起面板</dd>
+        <dt><kbd>?</kbd></dt><dd>打开这张表</dd>
+      </dl>
+    </div>
+  </aside>
+  <div class="desk">
+    <header class="topbar"><div class="breadcrumb">工作室 <span>/</span> <strong id="viewLabel">新建短片</strong></div><div class="top-status"><button id="healthPill" type="button" class="status-dot" title="重新检查本地服务与活动任务">连接中</button><button id="llmPill" class="text-button" data-view="settings">模型检查中</button></div></header>
+    <div class="work-area">
+      <main id="main" tabindex="-1">
+        <div id="healthError" class="notice error" hidden><span id="healthErrorText"></span><button id="retryHealth" class="text-button">重新连接</button></div>
+        <section id="taskPanel" class="task-panel" aria-label="生产任务" hidden>
+          <div class="task-heading"><div><span class="eyebrow">PRODUCTION</span><h2 id="taskTitle">生成短片</h2></div><span id="taskState" class="task-state" role="status" aria-live="polite"></span></div>
+          <div class="task-meta"><span id="taskProject"></span><span id="elapsed"></span></div>
+          <ol id="taskStages" class="stage-track" aria-label="生产阶段"></ol>
+          <div id="taskMessage" class="hint" role="status"></div>
+          <button id="retryTask" class="small-button" hidden>重新获取任务状态</button>
+          <details id="taskDetails"><summary>查看运行日志</summary><pre id="log" class="log" tabindex="0"></pre></details>
+        </section>
+        <section id="newView" class="view" aria-labelledby="newHeading">
+          <div class="page-heading"><div><div class="eyebrow">CREATE A FILM</div><h1 id="newHeading">让好内容，成为好短片<span class="coral">。</span></h1><p>放入素材，选定视觉语言。其余交给创作管线。</p></div><span class="edition">STUDIO<br><b>01 / CREATE</b></span></div>
+          <section id="guide" class="guide" aria-labelledby="guideHeading">
+            <div class="guide-head"><span class="eyebrow">HOW IT WORKS</span><button id="guideClose" class="icon-button" title="收起引导" aria-label="收起引导"><svg class="icon"><use href="#i-close"/></svg></button></div>
+            <h2 id="guideHeading" class="sr-only">三步做出短片</h2>
+            <ol class="guide-steps">
+              <li class="guide-step" data-guide="source"><span class="guide-num">1</span><div><strong>放入素材</strong><small>粘贴文章正文，或贴一个链接自动解析。只用你给的事实。</small></div></li>
+              <li class="guide-step" data-guide="style"><span class="guide-num">2</span><div><strong>选定风格与档位</strong><small>16 种视觉语言，每段 5 秒样片可悬停预览。档位决定复审轮次与评审严格度。</small></div></li>
+              <li class="guide-step" data-guide="render"><span class="guide-num">3</span><div><strong>生成并评审</strong><small>写稿 → 配音 → 装配 → 渲染 → 客观评审，出片后自动检查死场与音效。</small></div></li>
+            </ol>
+          </section>
+          <button id="guideRestore" class="guide-restore" hidden><svg class="icon"><use href="#i-mark"/></svg>显示「三步做出短片」引导</button>
+          <section class="source-section" aria-labelledby="sourceHeading">
+            <div class="section-heading"><h2 id="sourceHeading"><span class="section-number">01</span>内容素材</h2><span id="sourceCount" class="micro">从真实内容开始</span></div>
+            <label class="sr-only" for="title">片名</label><input id="title" class="title-input" type="text" maxlength="160" placeholder="给这支短片起个名字" autocomplete="off">
+            <div class="url-row"><svg class="icon"><use href="#i-link"/></svg><label class="sr-only" for="url">素材链接</label><input type="url" id="url" placeholder="粘贴文章或视频链接" autocomplete="off"><button id="btnParse" class="small-button">解析链接<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+            <p id="parseMsg" class="hint" role="status" aria-live="polite">支持公众号、抖音、B 站、小红书、视频号、YouTube 等来源</p>
+            <label class="sr-only" for="source">正文素材</label><textarea id="source" rows="7" placeholder="粘贴文章、笔记或资料，也可以在上方解析链接。&#10;&#10;写清事实，保留细节。视频将以这里的内容为依据。"></textarea>
+            <div class="source-foot"><svg class="icon"><use href="#i-file"/></svg><span>只使用你提供的事实，不编造数字。</span><span class="micro">文字 / 链接</span></div>
+          </section>
+          <section class="style-section" aria-labelledby="styleHeading">
+            <div class="section-heading"><h2 id="styleHeading"><span class="section-number">02</span>视觉风格</h2><span class="micro">每种5秒 · 悬停循环播放</span></div>
+            <div id="catalogError" class="notice error" hidden><span id="catalogErrorText"></span><button id="retryCatalog" class="text-button">重新加载风格与参数</button></div>
+            <div id="selectedStyle" class="selected-style"><div class="sample-stage" id="selectedPreview" tabindex="0" role="group" aria-label="所选风格的5秒演示，悬停或按回车播放"><span class="micro">5s · 风格演示</span><img id="styleImage" alt="" hidden><video id="styleVideo" class="tile-video" muted loop playsinline preload="none" aria-hidden="true"></video><span id="styleImageFallback" class="image-fallback">正在加载风格样张</span></div><div class="style-description"><div class="eyebrow">SELECTED DIRECTION</div><h3 id="styleName">正在载入风格</h3><p id="styleFeel">每一种视觉语言，都有自己的表达方式。</p><p id="styleBest" class="hint"></p><span id="styleBackend" class="availability">等待服务数据</span><p class="micro sample-note">人工编排的风格演示，不是当前项目成片。</p></div></div>
+            <details id="styleGallery" class="gallery"><summary><span>浏览全部风格 <span id="styleCount" class="count"></span></span><svg class="icon"><use href="#i-chevron"/></svg></summary><div id="styles" class="style-grid" aria-label="选择视觉风格"></div></details>
+          </section>
+        </section>
+        <section id="worksView" class="view" aria-labelledby="worksHeading" hidden>
+          <div class="page-heading"><div><div class="eyebrow">YOUR FILM LIBRARY</div><h1 id="worksHeading">作品库<span class="coral">。</span></h1><p>每一次创作，都有迹可循。</p></div><button id="refreshArchive" class="small-button"><svg class="icon"><use href="#i-refresh"/></svg>刷新</button></div>
+          <div id="archiveMsg" class="notice" role="status"></div><button id="retryArchive" class="small-button" hidden>重新加载作品</button><div id="archive" class="archive"></div>
+          <section id="resultStep" class="result-section" aria-labelledby="resultHeading" hidden>
+            <div class="section-heading"><h2 id="resultHeading">作品详情</h2><span id="projectName" class="micro mono"></span></div><p id="projectError" class="notice error" role="status" hidden></p>
+            <div class="result-layout"><div class="film-stage"><video id="video" controls playsinline preload="metadata" hidden></video><span id="noVideo" class="hint">该项目还没有可播放的成片</span></div><div class="result-info"><h3 id="resultTitle"></h3><dl id="kv" class="kv"></dl><div id="downloads" class="download-row"></div></div></div>
+            <div class="result-actions"><button id="btnCheck" class="small-button">重新评审</button><button id="btnShip" class="small-button">归档到 final</button><button id="btnEdit" class="small-button" aria-expanded="false" aria-controls="editor">编辑稿件与画面</button></div>
+            <div id="editor" class="editor" hidden><div class="editor-tabs" role="tablist" aria-label="项目文件"><button id="tabScript" role="tab" aria-selected="true" aria-controls="editorPanel" data-tab="script" class="on">口播稿 <span>script.json</span></button><button id="tabFilm" role="tab" aria-selected="false" aria-controls="editorPanel" data-tab="film" tabindex="-1">画面 <span>film.json</span></button></div><div id="editorPanel" role="tabpanel" aria-labelledby="tabScript"><label class="sr-only" for="editBox">JSON 文件内容</label><textarea id="editBox" rows="15" class="mono" spellcheck="false"></textarea></div><div class="editor-actions"><button id="btnSave" class="small-button">保存 JSON</button><button id="btnRebuild" class="small-button">重建并渲染此项目</button><button id="btnRender" class="small-button">仅重新渲染</button></div><p id="saveHint" class="hint" role="status">保存不会改变现有视频。稿件改动需重新配音、构建并渲染；仅画面改动可重建。右侧「生成」始终创建新项目。</p></div>
+          </section>
+        </section>
+        <section id="editView" class="view" aria-labelledby="editHeading" hidden>
+          <div class="page-heading"><div><div class="eyebrow">EDIT FROM YOUR OWN FOOTAGE</div><h1 id="editHeading">用你的素材剪一条<span class="coral">。</span></h1><p>素材留在原处，只登记路径。写一句需求，锁定要用的片段，再剪出成片。</p></div><span class="edition">STUDIO<br><b>02 / EDIT</b></span></div>
+
+          <div id="editMissing" class="notice error" hidden><span id="editMissingText"></span></div>
+          <section class="source-section" aria-labelledby="editLibHeading">
+            <div class="section-heading"><h2 id="editLibHeading"><span class="section-number">01</span>素材库</h2><span id="editLibCount" class="micro">尚未登记</span></div>
+            <p class="hint">粘贴本机文件/文件夹的绝对路径，一行一个；也可以把文件拖到下面。原文件不会被复制或移动。</p>
+            <label class="sr-only" for="editPaths">素材路径</label>
+            <textarea id="editPaths" rows="3" placeholder="C:\Users\你\Videos\旅行&#10;D:\素材\产品镜头"></textarea>
+            <div class="url-row"><label class="sr-only" for="editTag">批次标签</label><input type="text" id="editTag" placeholder="给这批素材打个标签（可选，例如：海边 黄昏 旅行）" autocomplete="off"><button id="btnRegister" class="small-button">登记素材<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+            <label class="micro"><input type="checkbox" id="editAsr"> 同时识别口播（需本机 faster-whisper，较慢；不装也能用）</label>
+            <p id="editScanMsg" class="hint" role="status" aria-live="polite"></p>
+            <div class="edit-row"><button id="btnEditStatus" class="text-button">检查缺失文件</button><button id="btnEditRefresh" class="text-button">刷新列表</button></div>
+            <div id="editRelocate" class="edit-row" hidden><label class="sr-only" for="editOld">旧路径前缀</label><input type="text" id="editOld" placeholder="旧路径前缀，如 D:\素材"><label class="sr-only" for="editNew">新路径前缀</label><input type="text" id="editNew" placeholder="新路径前缀，如 E:\素材"><button id="btnRelocate" class="small-button">批量重定位</button></div>
+            <div id="editAssets" class="edit-assets"></div>
+          </section>
+
+          <section class="source-section" aria-labelledby="editNeedHeading">
+            <div class="section-heading"><h2 id="editNeedHeading"><span class="section-number">02</span>这一条要什么</h2><span class="micro">需求 → 锁定片段</span></div>
+            <label class="sr-only" for="editRequirement">剪辑需求</label>
+            <textarea id="editRequirement" rows="3" placeholder="例如：用海边黄昏的开头，接三段产品特写，节奏快一点，做成 15 秒"></textarea>
+            <div class="url-row"><label class="sr-only" for="editDuration">目标时长</label><input type="number" id="editDuration" min="1" max="120" step="1" value="15"><span class="micro">秒</span><button id="btnPlan" class="small-button">锁定素材<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+            <p id="editPlanMsg" class="hint" role="status" aria-live="polite">没配模型时走受限模式：按关键词匹配，不做语义规划。</p>
+            <div id="editCandidates" class="edit-candidates"></div>
+          </section>
+
+          <section class="source-section" aria-labelledby="editTlHeading">
+            <div class="section-heading"><h2 id="editTlHeading"><span class="section-number">03</span>时间轴</h2><span id="editTotal" class="micro">—</span></div>
+            <div id="editTimeline" class="edit-timeline"><div class="empty-state">还没有时间轴。先在上面写需求，点「锁定素材」。</div></div>
+            <label class="micro"><input type="checkbox" id="editAllowWeb" checked> 本地没有符合需求的素材时，联网找明确可商用 / 公有领域的素材（不拉别人视频平台的内容）</label>
+            <div id="editTlActions" class="edit-row" hidden><button id="btnEditSave" class="small-button">保存时间轴</button><button id="btnEditPreview" class="small-button">出预览</button><button id="btnEditRender" class="primary">出成片</button></div>
+            <p id="editRenderMsg" class="hint" role="status" aria-live="polite"></p>
+            <div id="editPlayer" class="film-stage" hidden><video id="editVideo" controls playsinline preload="metadata"></video></div>
+          </section>
+        </section>
+        <section id="settingsView" class="view settings-view" aria-labelledby="settingsHeading" hidden>
+          <div class="page-heading"><div><div class="eyebrow">MODEL CONNECTION</div><h1 id="settingsHeading">创作引擎<span class="coral">。</span></h1><p>连接文本模型，让素材变成有结构的脚本。</p></div></div>
+          <div class="settings-note"><svg class="icon"><use href="#i-sliders"/></svg><div><strong>模型只用于自动写稿</strong><p>不配置模型也能使用「纯文字排版」。该模式按原文分句、逐屏呈现，不自动配内容画面。</p></div></div>
+          <form id="settingsForm" autocomplete="off"><div class="field"><label for="setBase">API 地址</label><input type="url" id="setBase" placeholder="OpenAI 兼容 API 地址" autocomplete="off" required></div><div class="field"><label for="setModel">模型名称</label><input type="text" id="setModel" placeholder="服务商提供的模型标识" required></div><div class="field"><label for="setKey">API Key <span id="keyState" class="micro">未读取</span></label><input type="password" id="setKey" autocomplete="new-password" spellcheck="false" placeholder="输入密钥"><p class="hint">密钥不会回显。已有密钥时，留空表示保留。</p></div><div class="settings-actions"><button type="submit" id="btnSaveSettings" class="primary">保存设置</button><button type="button" id="btnTest" class="small-button">测试连接</button><button type="button" id="retrySettings" class="text-button">重新读取</button></div><p id="setHint" class="notice" role="status" aria-live="polite">正在读取模型状态…</p></form>
+        </section>
+      </main>
+      <aside class="inspector" aria-labelledby="inspectorHeading">
+        <div class="inspector-title"><div><span class="eyebrow">FILM SETTINGS</span><h2 id="inspectorHeading">出片参数</h2></div><svg class="icon"><use href="#i-sliders"/></svg></div>
+        <div class="inspector-scroll"><fieldset id="parameters" disabled>
+          <section class="parameter-group"><h3>制作档位</h3><div class="field"><label id="tierLabel">品质与速度</label><div id="pTier" class="tier-cards" role="radiogroup" aria-labelledby="tierLabel"></div><p id="tierHint" class="hint"></p></div></section>
+          <section class="parameter-group"><h3>内容与叙事</h3><div class="field"><label>视频类型</label><div id="pNarration" class="seg" role="group" aria-label="视频类型"></div></div><div class="field"><label for="pType">叙事风格</label><select id="pType"></select><p id="typeHint" class="hint"></p></div><div class="field"><label for="pDuration">目标时长</label><div class="duration-row"><input type="number" id="pDuration" min="1" max="120" step="1" value="30"><span>秒 <span id="durationRange" class="micro">/ 最长 120 秒</span></span></div><p id="durationHint" class="hint" role="status"></p></div></section>
+          <section class="parameter-group"><h3>画面规格</h3><div class="field"><label for="pRatio">画面比例</label><select id="pRatio"></select></div><div id="pRatioCustom" class="custom-ratio" hidden><div><label for="pCW">宽 / px</label><input type="number" id="pCW" min="64" max="4000" step="2" value="1080"></div><span>×</span><div><label for="pCH">高 / px</label><input type="number" id="pCH" min="64" max="4000" step="2" value="1920"></div></div><p id="ratioHint" class="hint" role="status"></p><div class="field"><label for="pResolution">分辨率</label><select id="pResolution"></select><p id="qualityHint" class="hint"></p></div><div class="field"><label>帧率</label><div id="pFps" class="seg" role="group" aria-label="帧率"></div></div></section>
+          <section class="parameter-group"><h3>声音</h3><div class="field"><label for="pVoice">配音音色</label><div class="voice-row"><select id="pVoice"></select><button id="btnAudition" class="icon-button" title="试听音色" aria-label="试听音色"><svg class="icon"><use href="#i-play"/></svg></button></div><p id="voiceHint" class="hint" role="status" aria-live="polite"></p></div><button id="drop" class="audio-drop" type="button"><svg class="icon"><use href="#i-audio"/></svg><span><strong>使用自己的录音</strong><small>点击或拖入 WAV / MP3，最大 60 MB</small></span></button><input id="file" type="file" accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac" hidden><div id="audioSelection" class="audio-selection" hidden><span id="fileName"></span><button id="removeAudio" class="icon-button" title="移除录音" aria-label="移除录音"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="uploadHint" class="hint" role="status">可选。上传录音后，画面将与真实语速对齐。</p></section>
+          <section class="parameter-group writing"><h3>写稿方式</h3><label class="check-row"><input id="offline" type="checkbox"><span>纯文字排版<small>不使用模型，按原文逐屏呈现</small></span></label><p id="settingsWarning" class="hint"></p></section>
+        </fieldset></div>
+        <footer class="generate-footer"><div class="output-label"><span>OUTPUT</span><span id="outputMode">新建项目</span></div><p id="paramHint" class="output-summary">正在加载出片规格…</p><p id="goHint" class="hint" role="status" aria-live="polite">正在检查本地服务</p><button id="go" class="primary generate" disabled><span>生成短片</span><svg class="icon"><use href="#i-arrow"/></svg></button><span class="footer-note">本机渲染 · 每次生成创建独立项目</span></footer>
+      </aside>
+    </div>
+  </div>
+</div>
+<div id="flash" class="toast" role="status" aria-live="polite"></div>
+<noscript><div class="noscript">此工作室需要 JavaScript 才能连接本地生成服务。</div></noscript>
+</body>
+</html>

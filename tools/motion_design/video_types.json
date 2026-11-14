@@ -1,0 +1,32 @@
+{
+ "explain": {
+  "zh": "知识科普",
+  "desc": "讲清一个原理或事实,给结论和方法",
+  "beat_hint": "hook/flow/compare/checklist",
+  "pace": "稳,信息密度高"
+ },
+ "news": {
+  "zh": "新闻资讯",
+  "desc": "一条刚发生的事,时间线 + 关键信息",
+  "beat_hint": "hook/flow/compare/cta",
+  "pace": "快,抢在前 3 秒给结论"
+ },
+ "meme": {
+  "zh": "模因吐槽",
+  "desc": "一句话能让人转发,情绪大于信息",
+  "beat_hint": "hook/compare/cta",
+  "pace": "短句,多停顿,结尾给转发理由"
+ },
+ "story": {
+  "zh": "故事叙述",
+  "desc": "有人、有事、有转折",
+  "beat_hint": "hook/flow/compare/verdict/cta",
+  "pace": "叙事,有起伏"
+ },
+ "review": {
+  "zh": "产品测评",
+  "desc": "值不值得买,给对比和结论",
+  "beat_hint": "hook/compare/checklist/cta",
+  "pace": "客观,对比清楚"
+ }
+}

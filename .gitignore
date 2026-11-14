@@ -1,0 +1,39 @@
+# 凭据与本机配置 —— 绝不提交
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 桌面端依赖与构建产物（运行时从本机/发行包提供）
+node_modules/
+remotion-composer/node_modules/
+!tools/motion_design/wallstreet/node_modules/
+dist/
+build/
+*.spec
+
+# 用户数据与运行时产物
+projects/
+remotion-composer/out/
+remotion-composer/public/*/
+!remotion-composer/public/styles/
+!remotion-composer/public/fonts/
+!remotion-composer/public/ai-bubble/
+*.log
+*.tmp
+*.part
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini

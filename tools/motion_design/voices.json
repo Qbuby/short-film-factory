@@ -1,0 +1,114 @@
+[
+ {
+  "id": "zh-CN-XiaoxiaoNeural",
+  "cn": "晓晓",
+  "gender": "女",
+  "desc": "温柔亲和,通用讲解",
+  "locale": "大陆",
+  "en": "Xiaoxiao"
+ },
+ {
+  "id": "zh-CN-XiaoyiNeural",
+  "cn": "晓伊",
+  "gender": "女",
+  "desc": "活泼年轻,情绪起伏大",
+  "locale": "大陆",
+  "en": "Xiaoyi"
+ },
+ {
+  "id": "zh-CN-YunjianNeural",
+  "cn": "云健",
+  "gender": "男",
+  "desc": "沉稳有力,科普纪实",
+  "locale": "大陆",
+  "en": "Yunjian"
+ },
+ {
+  "id": "zh-CN-YunxiNeural",
+  "cn": "云希",
+  "gender": "男",
+  "desc": "阳光少年,轻松快节奏",
+  "locale": "大陆",
+  "en": "Yunxi"
+ },
+ {
+  "id": "zh-CN-YunxiaNeural",
+  "cn": "云夏",
+  "gender": "男",
+  "desc": "情感细腻,叙事旁白",
+  "locale": "大陆",
+  "en": "Yunxia"
+ },
+ {
+  "id": "zh-CN-YunyangNeural",
+  "cn": "云扬",
+  "gender": "男",
+  "desc": "专业播报,新闻财经",
+  "locale": "大陆",
+  "en": "Yunyang"
+ },
+ {
+  "id": "zh-CN-liaoning-XiaobeiNeural",
+  "cn": "晓北",
+  "gender": "女",
+  "desc": "东北口音,反差喜剧",
+  "locale": "辽宁",
+  "en": "Xiaobei"
+ },
+ {
+  "id": "zh-CN-shaanxi-XiaoniNeural",
+  "cn": "晓妮",
+  "gender": "女",
+  "desc": "陕西口音,接地气唠嗑",
+  "locale": "陕西",
+  "en": "Xiaoni"
+ },
+ {
+  "id": "zh-HK-HiuGaaiNeural",
+  "cn": "曉佳",
+  "gender": "女",
+  "desc": "粤语,干练港风",
+  "locale": "香港",
+  "en": "HiuGaai"
+ },
+ {
+  "id": "zh-HK-HiuMaanNeural",
+  "cn": "曉曼",
+  "gender": "女",
+  "desc": "粤语,温柔耐听",
+  "locale": "香港",
+  "en": "HiuMaan"
+ },
+ {
+  "id": "zh-HK-WanLungNeural",
+  "cn": "雲龍",
+  "gender": "男",
+  "desc": "粤语,低沉有分量",
+  "locale": "香港",
+  "en": "WanLung"
+ },
+ {
+  "id": "zh-TW-HsiaoChenNeural",
+  "cn": "曉臻",
+  "gender": "女",
+  "desc": "台湾腔,亲切自然",
+  "locale": "台湾",
+  "en": "HsiaoChen"
+ },
+ {
+  "id": "zh-TW-HsiaoYuNeural",
+  "cn": "曉雨",
+  "gender": "女",
+  "desc": "台湾腔,叙事抒情",
+  "locale": "台湾",
+  "en": "HsiaoYu"
+ },
+ {
+  "id": "zh-TW-YunJheNeural",
+  "cn": "雲哲",
+  "gender": "男",
+  "desc": "台湾腔,磁性稳重",
+  "locale": "台湾",
+  "en": "YunJhe"
+ }
+]

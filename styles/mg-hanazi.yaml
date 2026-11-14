@@ -1,0 +1,103 @@
+# 由风格提示词机器转换而来 —— 18-hanazi.md
+# 风格原文:lib/motion_design/mgstyles/prompts/18-hanazi.md
+# 转换脚本:tools/motion_design/build_style_playbooks.py
+identity:
+  name: "综艺花字 Variety Show Kinetic Captions (Hanazi)"
+  category: "motion-graphics"
+  mood: "多层描边圆体, 胖体字, 高饱和撞色"
+  pace: "fast"
+  best_for: "Code-first 动效短片;可与其他风格混合或作为新风格的起点"
+visual_language:
+  color_palette:
+    primary:
+      - "#C8553D"
+      - "#E8A33D"
+    accent:
+      - "#2E6E5B"
+      - "#4A3728"
+      - "#F5EFE3"
+    background: "#0F172A"
+    text: "#F8FAFC"
+    muted: "#94A3B8"
+  composition: "多层描边圆体/胖体字, 高饱和撞色+白边+投影, 弹性 pop 入场, 配合音效出现, 手绘装饰符号（爆炸框/汗滴/闪光）"
+  texture: "字体三层结构：填充色+粗白描边+彩色外描边/投影（CSS 可用多层 text-shadow 或 SVG stroke 模拟）"
+typography:
+  headings:
+    font: "Inter"
+    weight: 800
+    tracking: "-0.02em"
+  body:
+    font: "Inter"
+    weight: 400
+    line_height: 1.5
+  code:
+    font: "Fira Code"
+    weight: 400
+  stat_card:
+    font: "Inter"
+    weight: 800
+    size_multiplier: 4.0
+  scale_system: "perfect_fourth"
+  weight_matrix:
+    title: 800
+    heading: 700
+    body: 400
+    caption: 300
+motion:
+  transitions:
+    - shape-wipe
+    - element-fly
+    - cut
+  animation_style: "字体三层结构：填充色+粗白描边+彩色外描边/投影（CSS 可用多层 text-shadow 或 SVG stroke 模拟）"
+  pacing_rules:
+    min_scene_hold_seconds: 1.0
+    max_scene_hold_seconds: 4.0
+    text_card_hold_seconds: 2.0
+    stat_card_hold_seconds: 1.6
+    transition_duration_seconds: 0.3
+  entrance: "字体三层结构：填充色+粗白描边+彩色外描边/投影（CSS 可用多层 text-shadow 或 SVG stroke 模拟）"
+  exit: "弹性收束"
+audio:
+  voice_style: "简洁口语,每个短句一次落点"
+  music_mood: "bouncy variety-show bed (pizzicato/bass/claps) + boing, pop, ding, slide whistle, record scratch on '？？？'."
+  music_volume: 0.14
+  sfx_style: "入场/转场/高潮各一个程序化音效,与画面对齐"
+  ducking_threshold_db: -4
+asset_generation:
+  image_prompt_prefix: "综艺花字 Variety Show Kinetic Captions (Hanazi), code-first motion design, "
+  image_negative_prompt: "照片素材,模板感,默认字体"
+  diagram_style: "由代码绘制的图形,品牌色一致"
+  consistency_anchors:
+    - "多层描边圆体/胖体字, 高饱和撞色+白边+投影, 弹性 pop 入场, 配合音效出现, 手绘装饰符号（爆炸框/汗滴/闪光）"
+    - 字体三层结构：填充色+粗白描边+彩色外描边/投影（CSS 可用多层 text-shadow 或 SVG stroke 模拟）
+quality_rules:
+  - 画面主体必须由代码绘制(禁止用静态图片 + 缩放转场凑数)
+  - 前 0.5 秒必须出现一个在动的元素
+  - 每个关键技法必须能在成片里被指出时间码
+  - "字幕/标题在竖屏安全区内,字号 ≥ 44px"
+  - 音频与画面命中点对齐(误差 ≤ 1 帧)
+  - "总时长精确等于设定值,无黑帧"
+chart_palette:
+  - "#C8553D"
+  - "#E8A33D"
+  - "#2E6E5B"
+  - "#4A3728"
+  - "#F5EFE3"
+color_rules:
+  harmony_type: "triadic"
+  contrast_validation: true
+  colorblind_safe: true
+taste_profile:
+  design_read: "多层描边圆体/胖体字, 高饱和撞色+白边+投影, 弹性 pop 入场, 配合音效出现, 手绘装饰符号（爆炸框/汗滴/闪光）"
+  visual_variance: 7
+  motion_intensity: 8
+  information_density: 6
+  palette_discipline: "固定使用本风格色板:#C8553D, #E8A33D, #2E6E5B, #4A3728, #F5EFE3"
+  layout_variation: "版式随节拍变化,每镜只让一个主体动"
+  reference_strategy: "以 HTML DOM/SVG: multi-layer text-stroke 花字 components + spring pops + SVG burst/sweat/sparkle decorations over a pet-vlog  为技术路线"
+  anti_patterns:
+    - 静态图片加缩放转场
+    - 同屏多个主体同时运动
+    - 文字被裁切
+  quality_gates:
+    - 字体三层结构：填充色+粗白描边+彩色外描边/投影（CSS 可用多层 text-shadow 或 SVG stroke 模拟）

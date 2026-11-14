@@ -1,0 +1,102 @@
+# 由风格提示词机器转换而来 —— 09-bauhaus.md
+# 风格原文:lib/motion_design/mgstyles/prompts/09-bauhaus.md
+# 转换脚本:tools/motion_design/build_style_playbooks.py
+identity:
+  name: "几何构成 / 包豪斯 Geometric / Bauhaus Motion"
+  category: "motion-graphics"
+  mood: "基础几何形, 红黄蓝黑限定色, 严格网格对齐"
+  pace: "fast"
+  best_for: "Code-first 动效短片;可与其他风格混合或作为新风格的起点"
+visual_language:
+  color_palette:
+    primary:
+      - "#F1E9DA"
+      - "#E03C31"
+    accent:
+      - "#F2B705"
+      - "#1E4FA3"
+    background: "#0F172A"
+    text: "#F8FAFC"
+    muted: "#94A3B8"
+  composition: "基础几何形, 红黄蓝黑限定色, 严格网格对齐, 旋转以几何中心为轴, 节拍驱动的模块化运动"
+  texture: "一切运动锚定网格：位移距离=网格模数整数倍，落点必在网格线上"
+typography:
+  headings:
+    font: "Inter"
+    weight: 800
+    tracking: "-0.02em"
+  body:
+    font: "Inter"
+    weight: 400
+    line_height: 1.5
+  code:
+    font: "Fira Code"
+    weight: 400
+  stat_card:
+    font: "Inter"
+    weight: 800
+    size_multiplier: 4.0
+  scale_system: "perfect_fourth"
+  weight_matrix:
+    title: 800
+    heading: 700
+    body: 400
+    caption: 300
+motion:
+  transitions:
+    - shape-wipe
+    - element-fly
+    - cut
+  animation_style: "一切运动锚定网格：位移距离=网格模数整数倍，落点必在网格线上"
+  pacing_rules:
+    min_scene_hold_seconds: 1.0
+    max_scene_hold_seconds: 4.0
+    text_card_hold_seconds: 2.0
+    stat_card_hold_seconds: 1.6
+    transition_duration_seconds: 0.3
+  entrance: "一切运动锚定网格：位移距离=网格模数整数倍，落点必在网格线上"
+  exit: "弹性收束"
+audio:
+  voice_style: "简洁口语,每个短句一次落点"
+  music_mood: "minimal techno/click — each flip = a pitched click/blip, kick on quarters."
+  music_volume: 0.14
+  sfx_style: "入场/转场/高潮各一个程序化音效,与画面对齐"
+  ducking_threshold_db: -4
+asset_generation:
+  image_prompt_prefix: "几何构成 / 包豪斯 Geometric / Bauhaus Motion, code-first motion design, "
+  image_negative_prompt: "照片素材,模板感,默认字体"
+  diagram_style: "由代码绘制的图形,品牌色一致"
+  consistency_anchors:
+    - "基础几何形, 红黄蓝黑限定色, 严格网格对齐, 旋转以几何中心为轴, 节拍驱动的模块化运动"
+    - 一切运动锚定网格：位移距离=网格模数整数倍，落点必在网格线上
+quality_rules:
+  - 画面主体必须由代码绘制(禁止用静态图片 + 缩放转场凑数)
+  - 前 0.5 秒必须出现一个在动的元素
+  - 每个关键技法必须能在成片里被指出时间码
+  - "字幕/标题在竖屏安全区内,字号 ≥ 44px"
+  - 音频与画面命中点对齐(误差 ≤ 1 帧)
+  - "总时长精确等于设定值,无黑帧"
+chart_palette:
+  - "#F1E9DA"
+  - "#E03C31"
+  - "#F2B705"
+  - "#1E4FA3"
+color_rules:
+  harmony_type: "triadic"
+  contrast_validation: true
+  colorblind_safe: true
+taste_profile:
+  design_read: "基础几何形, 红黄蓝黑限定色, 严格网格对齐, 旋转以几何中心为轴, 节拍驱动的模块化运动"
+  visual_variance: 7
+  motion_intensity: 8
+  information_density: 6
+  palette_discipline: "固定使用本风格色板:#F1E9DA, #E03C31, #F2B705, #1E4FA3"
+  layout_variation: "版式随节拍变化,每镜只让一个主体动"
+  reference_strategy: "以 HTML: SVG/Canvas + GSAP on a strict modular grid, beat grid at 120 BPM
+(You may choose a better route if it clearly rais 为技术路线"
+  anti_patterns:
+    - 静态图片加缩放转场
+    - 同屏多个主体同时运动
+    - 文字被裁切
+  quality_gates:
+    - 一切运动锚定网格：位移距离=网格模数整数倍，落点必在网格线上

@@ -1,0 +1,25 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8">
+<title>短片工厂 · Playwright 逐帧舞台</title>
+<style>
+  html,body{margin:0;padding:0;background:#101E33;overflow:hidden}
+  #stage{position:absolute;left:0;top:0;overflow:hidden;transform-origin:0 0;
+         font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+         color:#F1EAD2}
+  #stage *{box-sizing:border-box}
+  /* 整层铺满舞台。film.js 里的 .full/.cam/.glow/.grain/.tex/.vignette 全靠这几个类定位，
+     缺了它们元素会脱离定位流 —— 画面会散、纹理会丢、压暗层会失效。 */
+  .full{position:absolute;inset:0;width:100%;height:100%}
+  .cam{transform-origin:50% 45%}
+  .tex{object-fit:cover;opacity:.55;mix-blend-mode:soft-light}
+  .grain{object-fit:cover;opacity:.06}
+  /* 四周压暗，但不能压到平均亮度低于 30（会被黑帧检测误判），
+     所以中心留亮、边缘只压 22%。 */
+  .vignette{background:radial-gradient(ellipse 78% 62% at 50% 46%,
+                 rgba(0,0,0,0) 40%, rgba(4,9,17,.30) 78%, rgba(4,9,17,.46) 100%)}
+  .glow{mix-blend-mode:screen;opacity:.9}
+</style></head>
+<body><main id="stage"></main>
+<!-- 数据由 wallstreet_backend.py 每次出片写到同一目录；film.js 只认这两个全局。 -->
+<script src="__DATA__.js"></script>
+<script src="film.js"></script>
+</body></html>
