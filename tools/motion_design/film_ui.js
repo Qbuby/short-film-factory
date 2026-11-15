@@ -222,7 +222,9 @@
     }));
     applyStyleHint();
   }
-  function canRender(style) {return style && ['remotion:StickerFilm','remotion:StyleFilm'].includes(style.backend);}
+  // 后端家族放行,而不是白名单单个值:mg-wallstreet 走 playwright:wallstreet,
+  // 以后新增风格后端只要带家族前缀就自动可选。
+  function canRender(style) {return !!style && /^(remotion|playwright):/.test(style.backend || '');}
   function applyStyleHint() {
     const style = state.styles.find(item => item.id === state.style); if (!style) return;
     $('#styleName').textContent = style.zh; $('#styleFeel').textContent = style.feel || '';
