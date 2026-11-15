@@ -146,12 +146,40 @@
 
   const TRANS_OPTIONS = ['硬切','淡入淡出','黑场过渡','白场过渡','左擦除','右擦除','上擦除','下擦除','左推入','右推入','上推入','下推入','圆形展开','圆形收拢','径向','溶解','像素化'];
 
+  function renderSubtitles() {
+    const doc = state.doc;
+    const box = $('#editSubtitles');
+    const addBtn = $('#btnEditSubAdd');
+    if (!doc) { box.innerHTML = ''; addBtn.hidden = true; return; }
+    const subs = doc.subtitles || [];
+    addBtn.hidden = !(doc.cuts || []).length;
+    box.innerHTML = subs.length ? subs.map((s, i) => `<div class="edit-sub" data-index="${i}">
+        <input type="number" step="0.1" min="0" data-sub="start" value="${Number(s.start || 0).toFixed(2)}" aria-label="字幕开始秒">
+        <input type="number" step="0.1" min="0" data-sub="end" value="${Number(s.end || 0).toFixed(2)}" aria-label="字幕结束秒">
+        <input type="text" data-sub="text" value="${esc(s.text || '')}" maxlength="40" placeholder="字幕内容">
+        <button class="text-button edit-sub-del" data-index="${i}">删除</button>
+      </div>`).join('')
+      : '<div class="empty-state">还没有字幕。锁定素材后点「添加字幕」。</div>';
+  }
+
+  function collectSubtitles() {
+    if (!state.doc) return;
+    // 不滤空行:行与 doc 一一对应,删除按钮才能按序号对上;
+    // 空内容留给后端契约报「subtitles[i].text 不能为空」,指名道姓。
+    state.doc.subtitles = $$('#editSubtitles .edit-sub').map(row => ({
+      start: Number((row.querySelector('[data-sub="start"]') || {}).value) || 0,
+      end: Number((row.querySelector('[data-sub="end"]') || {}).value) || 0,
+      text: String((row.querySelector('[data-sub="text"]') || {}).value || '').trim(),
+    }));
+  }
+
   function renderTimeline() {
     const doc = state.doc;
     const box = $('#editTimeline');
     if (!doc || !(doc.cuts || []).length) {
       box.innerHTML = '<div class="empty-state">没有锁定到素材。先登记素材，再写需求试试。</div>';
       $('#editTlActions').hidden = true; $('#editTotal').textContent = '—';
+      renderSubtitles();
       return;
     }
     state.transitions = doc.transitions || TRANS_OPTIONS;
@@ -176,6 +204,7 @@
       </div>`;
     }).join('');
     $('#editTlActions').hidden = false;
+    renderSubtitles();
     $('#editCandidates').innerHTML = (doc.candidates || []).length
       ? `<div class="section-heading"><h3>可替换的候选片段</h3><span class="micro">点「用这个」换掉对应镜头</span></div>` +
         doc.candidates.slice(0, 8).map((h, i) => `<div class="edit-cand" data-index="${i}">
@@ -202,6 +231,7 @@
       });
       // 时间轴字段由后端契约重算,前端不伪造
     });
+    collectSubtitles();
     return state.doc;
   }
 
@@ -264,6 +294,21 @@
   };
   $('#btnPlan').onclick = plan;
   $('#btnEditSave').onclick = saveDoc;
+  $('#btnEditSubAdd').onclick = () => {
+    if (!state.doc) return;
+    collectSubtitles();
+    const subs = state.doc.subtitles || (state.doc.subtitles = []);
+    const lastEnd = subs.length ? Number(subs[subs.length - 1].end) || 0 : 0;
+    subs.push({start: Number(lastEnd.toFixed(2)), end: Number((lastEnd + 2).toFixed(2)), text: ''});
+    renderSubtitles();
+  };
+  $('#editSubtitles').onclick = (e) => {
+    const del = e.target.closest('.edit-sub-del');
+    if (!del || !state.doc) return;
+    collectSubtitles();
+    state.doc.subtitles.splice(Number(del.dataset.index), 1);
+    renderSubtitles();
+  };
   $('#btnEditPreview').onclick = () => render(true);
   $('#btnEditRender').onclick = () => render(false);
   $('#editTimeline').onclick = (e) => {

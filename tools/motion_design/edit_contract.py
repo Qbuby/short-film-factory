@@ -52,6 +52,7 @@ TRANSITIONS: dict[str, str] = {
 SPEED_MIN, SPEED_MAX = 0.25, 4.0
 MAX_DURATION = 120.0
 TOLERANCE = 0.08  # 与 review.py 的时长容差一致
+SUB_MAX_CHARS = 40  # 单条字幕的字数上限:超过就该拆成两条
 
 
 def _num(v, name: str, *, low: float | None = None, high: float | None = None) -> float:
@@ -158,6 +159,32 @@ def normalize_cut(row: dict, index: int) -> dict:
     return out
 
 
+def normalize_subtitles(raw, total: float) -> list[dict]:
+    """字幕轨:时间轴秒,渲染时烧进画面。空缺/空数组都是「没有字幕」。"""
+    if raw is None or raw == []:
+        return []
+    if not isinstance(raw, list):
+        raise ValueError("subtitles 必须是数组")
+    out = []
+    for i, row in enumerate(raw):
+        if not isinstance(row, dict):
+            raise ValueError(f"subtitles[{i}] 必须是对象")
+        text = str(row.get("text") or "").strip()
+        if not text:
+            raise ValueError(f"subtitles[{i}].text 不能为空")
+        if len(text) > SUB_MAX_CHARS:
+            raise ValueError(f"subtitles[{i}] 一条不超过 {SUB_MAX_CHARS} 字(当前 {len(text)}),请拆成两条")
+        start = _num(row.get("start"), f"subtitles[{i}].start", low=0.0, high=MAX_DURATION)
+        end = _num(row.get("end"), f"subtitles[{i}].end", low=0.0, high=MAX_DURATION)
+        if end - start < 0.3:
+            raise ValueError(f"subtitles[{i}] 至少显示 0.3s,否则一闪而过")
+        if end > total + TOLERANCE:
+            raise ValueError(f"subtitles[{i}] 结束时刻 {end:.2f}s 超出成片时长 {total:.2f}s")
+        out.append({"start": round(start, 3), "end": round(end, 3), "text": text})
+    out.sort(key=lambda s: (s["start"], s["end"]))
+    return out
+
+
 def compute_timeline(cuts: list[dict]) -> tuple[list[dict], float]:
     """算出每条主轨 cut 的 timeline_start / timeline_duration 与总时长。
 
@@ -241,6 +268,7 @@ def validate(doc: dict, *, asset_paths: dict[str, dict] | None = None) -> tuple[
             "music": doc.get("audio", {}).get("music"),
         },
         "cuts": cuts,
+        "subtitles": normalize_subtitles(doc.get("subtitles"), total),
         "total": total,
         "transitions": list(TRANSITIONS),
     }
@@ -254,7 +282,7 @@ def blank_doc(title: str = "剪辑短片", requirement: str = "") -> dict:
         "title": title, "requirement": requirement,
         "output": {"width": 1080, "height": 1920, "fps": 30},
         "audio": {"mode": "source", "music": None},
-        "cuts": [], "total": 0.0, "transitions": list(TRANSITIONS),
+        "cuts": [], "subtitles": [], "total": 0.0, "transitions": list(TRANSITIONS),
     }
 
 

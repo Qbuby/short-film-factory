@@ -78,6 +78,24 @@ def _font() -> str | None:
     return next((str(f) for f in FONT_CANDIDATES if f.is_file()), None)
 
 
+def _stage_font(work: Path) -> str | None:
+    """把系统字体复制进 work 用纯文件名,返回 filter 里可用的文件名。
+
+    Windows 的 C:/... 路径在 filter 里冒号和反斜杠转义非常容易出错,
+    实测 eslint 式转义会被吞掉;复制成短文件名是验证过的做法。
+    """
+    font = _font()
+    if not font:
+        return None
+    name = "font" + Path(font).suffix
+    try:
+        if not (work / name).exists():
+            shutil.copyfile(font, work / name)
+    except OSError:
+        return None
+    return name
+
+
 def _video_filter(doc: dict, work: Path) -> tuple[list[str], list[str], str]:
     """返回 (额外输入参数, filter 片段列表, 最终视频标签)。"""
     out = doc["output"]
@@ -103,16 +121,12 @@ def _video_filter(doc: dict, work: Path) -> tuple[list[str], list[str], str]:
                            f"color=c={ov.get('backgroundColor', '#101E33')}:s={W}x{H}:r={FPS}:d={c['timeline_duration']:.3f}"])
             chain = f"[{i}:v]setpts=PTS-STARTPTS"
             if font and (work / txt).stat().st_size:
-                # 字体复制进 work 用纯文件名:Windows 的 C:/... 在 filter 里
-                # 冒号和反斜杠转义非常容易出错,实测 eslint 式转义会被吞掉。
-                font_name = "font" + Path(font).suffix
-                try:
-                    if not (work / font_name).exists():
-                        shutil.copyfile(font, work / font_name)
+                font_name = _stage_font(work)
+                if font_name:
                     chain += (f",drawtext=textfile={txt}:fontfile={font_name}:"
                               f"fontcolor={ov.get('color', '#F1EAD2')}:fontsize={int(H * 0.045)}:"
                               "x=(w-text_w)/2:y=(h-text_h)/2")
-                except OSError:
+                else:
                     warnings.append(f"cuts[{i}] 中文字体复制失败,只输出纯色卡")
             else:
                 warnings.append(f"cuts[{i}] 文字卡未找到中文字体,只输出纯色卡")
@@ -164,7 +178,33 @@ def _video_filter(doc: dict, work: Path) -> tuple[list[str], list[str], str]:
             f"[{last}][ps{j}]overlay=x='(W-w)*{x:.4f}':y='(H-h)*{y:.4f}':"
             f"enable='{enable}':eof_action=pass:repeatlast=0[{nxt}]")
         last = nxt
-    return inputs, filters, last if pips else last
+
+    # 字幕烧录:主合成(含画中画)之后逐条 drawtext,按时间窗 enable。
+    # 每条一个 textfile + 一个 filter 节点,文字内容不进 filter 表达式,
+    # 引号/冒号/中文都不会破坏 filter_complex。
+    subs = doc.get("subtitles") or []
+    if len(subs) > 300:
+        warnings.append(f"字幕 {len(subs)} 条超过 300,只烧前 300 条")
+        subs = subs[:300]
+    font_name = _stage_font(work) if subs else None
+    for i, s in enumerate(subs):
+        if not font_name:
+            warnings.append("没有可用中文字体,字幕未烧录(文字仍保存在 edit_decisions.json)")
+            break
+        txt = f"sub_{i}.txt"
+        (work / txt).write_text(s["text"], encoding="utf-8")
+        # drawtext 不换行也不缩字,超宽就是裁边。按估宽(CJK≈1 字宽,其余≈0.55)
+        # 把字号压到画面 92% 以内;契约限 40 字,最坏也在可读范围。
+        est = sum(1.0 if ord(ch) > 0x2E80 else 0.55 for ch in s["text"])
+        size = min(H * 0.042, (W * 0.92) / max(est, 1.0))
+        nxt = f"st{i}"
+        filters.append(
+            f"[{last}]drawtext=textfile={txt}:fontfile={font_name}:fontcolor=white:"
+            f"fontsize={size:.1f}:box=1:boxcolor=black@0.45:boxborderw=12:"
+            f"x=(w-text_w)/2:y=h-{int(H * 0.13)}-text_h:"
+            f"enable='between(t\\,{s['start']:.3f}\\,{s['end']:.3f})'[{nxt}]")
+        last = nxt
+    return inputs, filters, last
 
 
 def _audio_filter(doc: dict, work: Path) -> tuple[list[str], list[str], str] | None:

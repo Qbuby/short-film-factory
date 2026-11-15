@@ -1469,9 +1469,78 @@ def cmd_render(args):
                      ensure_ascii=False))
 
 
+def _ship_edit(meta: dict, d: Path):
+    """剪辑模式的归档:没有 Remotion 组合与 props.json,封面直接从成片抽帧。
+
+    命名沿用生成类的序号约定;封面名必须与 find_video 的推导一致
+    (视频 <nn>-<标题>-edit.mp4 → 封面 <nn>-<标题>-edit-封面.png)。
+    """
+    name = meta["name"]
+    video = d / "out" / f"{name}.mp4"
+    if not video.exists():
+        die("先渲染剪辑成片(非预览)")
+    final = PROJECTS / "final"
+    final.mkdir(parents=True, exist_ok=True)
+    nums = [int(m.group(1)) for f in final.glob("*.mp4") if (m := re.match(r"(\d+)-", f.name))]
+    nn = max(nums, default=0) + 1
+    zh = meta.get("title") or name
+    safe_title = archive_title(zh)
+    dst = final / f"{nn:02d}-{safe_title}-edit.mp4"
+    shutil.copyfile(video, dst)
+    cover = final / f"{nn:02d}-{safe_title}-edit-封面.png"
+    # 封面取第一个主轨镜头的中点,比固定 1.5s 更能代表这条片;读不到就用 1s。
+    frame = 1.0
+    try:
+        doc = json.loads((d / "edit_decisions.json").read_text(encoding="utf-8"))
+        main = [c for c in doc.get("cuts", []) if c.get("layer") == 0]
+        if main:
+            c0 = main[0]
+            frame = max(0.1, float(c0.get("timeline_start") or 0)
+                        + float(c0.get("timeline_duration") or 0) / 2)
+    except (OSError, ValueError, KeyError):
+        pass
+    r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", f"{frame:.3f}",
+                        "-i", str(video), "-frames:v", "1", str(cover)],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if r.returncode or not cover.is_file():
+        die(f"封面抽帧失败: {(r.stderr or '')[-200:]}")
+    report = [f"# {zh} · 剪辑模式", "",
+              f"**成片**:`{dst.as_posix()}`", f"**封面**:`{cover.as_posix()}`", ""]
+    try:
+        doc = json.loads((d / "edit_decisions.json").read_text(encoding="utf-8"))
+        cuts, subs = doc.get("cuts") or [], doc.get("subtitles") or []
+        total = float(doc.get("total") or 0)
+        out = doc.get("output") or {}
+        report += [
+            f"{total:.2f}s / {out.get('width', 1080)}×{out.get('height', 1920)} / "
+            f"{out.get('fps', 30)}fps / H.264 + AAC · ffmpeg editmode · 工具:短片工厂 film.py",
+            "", f"镜头 {len(cuts)} 段 / 转场 "
+            f"{sum(1 for c in cuts if (c.get('transition_in') or {}).get('duration', 0) > 0)} 段 / "
+            f"画中画 {sum(1 for c in cuts if c.get('layer', 0) > 0)} 层 / 字幕 {len(subs)} 条",
+            "", "| # | 时间轴 | 素材 | 源区间 | 变速 |", "| - | - | - | - | - |"]
+        for i, c in enumerate(cuts):
+            src = Path(c["source"]).name if c.get("source") else (c.get("overlay") or {}).get("text", "文字卡")
+            report.append(
+                f"| {i + 1} | {c.get('timeline_start', 0):.2f}–"
+                f"{c.get('timeline_start', 0) + c.get('timeline_duration', 0):.2f}s "
+                f"| {src} | {c.get('source_in', 0):.2f}–{c.get('source_out', 0):.2f}s "
+                f"| {c.get('speed', 1):.2f}x |")
+        if doc.get("web_used"):
+            report += ["", "## 素材来源", "", "联网素材的出处见项目内 CREDITS.md。"]
+    except (OSError, ValueError):
+        report += ["", "(edit_decisions.json 读取失败,镜头明细未写入报告)"]
+    report += ["", "## 复现", "",
+               "```bash", f"python tools/motion_design/edit_mode.py render --project {name}", "```", ""]
+    (d / "REPORT.md").write_text("\n".join(report), encoding="utf-8", newline="\n")
+    print(json.dumps({"ok": True, "video": str(dst), "cover": str(cover)}, ensure_ascii=False))
+
+
 def cmd_ship(args):
     d = proj_dir(args.project)
     meta = json.loads((d / "project.json").read_text(encoding="utf-8"))
+    if meta.get("mode") == "edit":
+        _ship_edit(meta, d)
+        return
     video = SRC.parent / "out" / f"{meta['slug']}.mp4"
     if not video.exists():
         die("先 render")
