@@ -30,8 +30,14 @@ def tier_of(meta: dict) -> dict:
 
 
 def review_args(meta: dict) -> list[str]:
-    """把档位的评审要求翻译成 review.py 参数。"""
-    rule = tier_of(meta)["review"]
+    """把档位的评审要求翻译成 review.py 参数。
+
+    项目级覆盖:meta["tier_review"] 里的键优先(华尔街 kit 风格的叙事节奏
+    和生成类不同——卡片停留阅读是设计,句间换镜停顿是口播 gap,
+    零容忍口径会把它误杀;由 wallstreet_kit 写入)。
+    """
+    rule = dict(tier_of(meta)["review"])
+    rule.update((meta or {}).get("tier_review") or {})
     return ["--dead-scale", str(rule["dead_scale"]),
             "--lufs-tol", str(rule["lufs_tol"]),
             "--sfx-min-ratio", str(rule["sfx_min_ratio"]),

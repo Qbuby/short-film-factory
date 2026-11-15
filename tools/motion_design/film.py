@@ -1634,6 +1634,10 @@ def cmd_make(args):
     meta["tier"] = (meta.get("tier") or qcfg.DEFAULT_TIER)
     if meta["tier"] not in qcfg.TIERS:
         die(f"未知制作档位: {meta['tier']}")
+    # 华尔街风格走原版 kit 镜头表,是 16:9 横版设计;竖版裁切会毁掉构图,直接强制。
+    if is_playwright(meta) and meta.get("ratio") != "16:9":
+        print("      ! 华尔街风格为 16:9 横版(原技能的设计画幅),已把比例改为 16:9", flush=True)
+        meta["ratio"] = "16:9"
     checked_duration(meta.get("duration"), "目标时长")
     resolve_ratio(meta.get("ratio", "9:16"))
     if is_silent(meta) and args.audio:
@@ -1660,6 +1664,19 @@ def cmd_make(args):
                 # 让模型去写只会白花一次调用,还会在 project.json 记一个用不上的状态。
                 if is_playwright(meta):
                     print("[1/5] 逐帧后端不使用 TSX 专属画面,跳过这一步。", flush=True)
+                    # v2:让模型按原 skill 的 kit 场景手册写镜头表(同题对比实测,
+                    # 固定舞台的差距是架构性的)。失败如实说明,退回 v1 固定舞台。
+                    try:
+                        import wallstreet_kit
+                        stage("镜头表", "华尔街风格:按 kit 场景选型")
+                        ok, info = wallstreet_kit.plan_shots(d, meta)
+                        if ok:
+                            print(f"      镜头表已生成:{info}", flush=True)
+                        else:
+                            print(f"      ! 镜头表未采用({info});退回固定竖版舞台。", flush=True)
+                    except Exception as e:  # noqa: BLE001
+                        print(f"      ! 镜头表生成失败({type(e).__name__}: {str(e)[:120]});"
+                              "退回固定竖版舞台。", flush=True)
                 else:
                     # 画面也交给模型:一次便宜的调用,失败就静默退回模板。
                     stage("画面", "模型为这条片子写专属画面代码")
@@ -1680,10 +1697,24 @@ def cmd_make(args):
         print("[1/5] script.json 里还有空句子;先手填,或加 --source 自动成稿。先继续渲占位片。", flush=True)
     else:
         print("[1/5] 已有稿子,跳过起草", flush=True)
+        # 华尔街风格:稿子改过或还没有镜头表时,(重)让模型写一张 kit 镜头表。
+        if is_playwright(meta) and not getattr(args, "offline", False) and _llm_configured():
+            _shots = d / "wallstreet_shots.json"
+            stale = (not _shots.exists()
+                     or _shots.stat().st_mtime < (d / "script.json").stat().st_mtime)
+            if stale:
+                try:
+                    import wallstreet_kit
+                    stage("镜头表", "华尔街风格:按 kit 场景选型")
+                    ok, info = wallstreet_kit.plan_shots(d, meta)
+                    if ok:
+                        print(f"      镜头表已生成:{info}", flush=True)
+                    else:
+                        print(f"      ! 镜头表未采用({info});退回固定竖版舞台。", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"      ! 镜头表生成失败({type(e).__name__}: {str(e)[:120]});"
+                          "退回固定竖版舞台。", flush=True)
         # 老项目的专属画面可能有问题(比如某一拍整段静止,或根本没生成过)。
-        # 重建时值得再让模型画一次——否则那条死场画面会跟着片子一直续命。
-        # 只在模型可用且有素材时尝试;失败照旧退回模板,不阻塞出片。
-        # Playwright 逐帧后端没有 TSX 专属画面这条路,直接跳过。
         if (not is_playwright(meta) and not getattr(args, "offline", False)
                 and _llm_configured() and args.source
                 and (not has_scene(meta) or scene_motion_gaps(meta))):

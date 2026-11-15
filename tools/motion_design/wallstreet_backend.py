@@ -291,6 +291,21 @@ def render(meta: dict, dest: Path, *, action: str, props: Path, extra,
         raise RuntimeError("playwright 后端需要 project 目录")
     pub = props.parent
     q = qcfg.output_spec(meta)
+
+    # ── v2:kit 模板档直通(模型写的镜头表)。v1 固定舞台降级为兜底。──
+    if action != "still" and (project / "wallstreet_shots.json").is_file():
+        import wallstreet_kit  # noqa: WPS433
+        kit_ok, kit_why = wallstreet_kit.available()
+        if kit_ok:
+            rw, rh = _resolve_ratio("16:9")
+            width, height = qcfg.output_dimensions(rw, rh, q)
+            info = wallstreet_kit.render_kit(
+                meta, project, dest, height=height,
+                log=lambda m, _l=log: print(m, flush=True))
+            return "pw-wallstreet-kit", subprocess.CompletedProcess(
+                ["wallstreet-kit", str(info.get("shots", 0))], 0)
+        print(f"[wallstreet] kit 不可用({kit_why});退回 v1 固定竖版舞台", flush=True)
+
     rw, rh = _resolve_ratio(meta.get("ratio", "9:16"))
     width, height = qcfg.output_dimensions(rw, rh, q)
     fps = int(q["fps"])
@@ -311,6 +326,12 @@ def render(meta: dict, dest: Path, *, action: str, props: Path, extra,
         for i, x in enumerate(extra):
             if x == "--frame" and i + 1 < len(extra):
                 fr = int(float(extra[i + 1]))
+        # v2:kit 成片已存在时,封面直接从成片抽帧(竖版舞台画的是另一套东西)。
+        if (project / "wallstreet_shots.json").is_file():
+            import wallstreet_kit  # noqa: WPS433
+            vid = pub.parent.parent / "out" / f"{meta.get('slug')}.mp4"
+            if vid.is_file() and wallstreet_kit.cover_from(vid, dest, fr, fps):
+                return "pw-wallstreet-kit", subprocess.CompletedProcess(["still"], 0)
         argv = [RENDER_MJS.as_posix(), *common, "--mode", "still", "--frame", str(fr)]
     else:
         # output_spec 已把分辨率 crf 与档位 crf_delta 合并过，别再减一次。
