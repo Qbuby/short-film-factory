@@ -140,7 +140,7 @@
         </section>
         <section id="settingsView" class="view settings-view" aria-labelledby="settingsHeading" hidden>
           <div class="page-heading"><div><h1 id="settingsHeading">模型设置</h1><p>连接 OpenAI 兼容的文本模型，用于写稿、素材理解和剪辑规划。</p></div></div>
-          <div class="settings-note"><svg class="icon"><use href="#i-sliders"/></svg><div><strong>模型只用于自动写稿</strong><p>不配置模型也能使用「纯文字排版」。该模式按原文分句、逐屏呈现，不自动配内容画面。</p></div></div>
+          <div class="settings-note"><svg class="icon"><use href="#i-sliders"/></svg><div><strong>模型用于写稿、素材理解和剪辑规划</strong><p>文本模型负责写稿与剪辑规划；素材理解（看画面做语义分段）优先用单独的视觉端点，未配置时复用本模型的图片能力，两者都不可用则剪辑进入受限模式。不配置模型也能使用「纯文字排版」，该模式按原文分句、逐屏呈现。</p></div></div>
           <form id="settingsForm" autocomplete="off"><div class="field"><label for="setBase">API 地址</label><input type="url" id="setBase" placeholder="OpenAI 兼容 API 地址" autocomplete="off" required></div><div class="field"><label for="setModel">模型名称</label><input type="text" id="setModel" placeholder="服务商提供的模型标识" required></div><div class="field"><label for="setKey">API Key <span id="keyState" class="micro">未读取</span></label><input type="password" id="setKey" autocomplete="new-password" spellcheck="false" placeholder="输入密钥"><p class="hint">密钥不会回显。已有密钥时，留空表示保留。</p></div><div class="settings-actions"><button type="submit" id="btnSaveSettings" class="primary">保存设置</button><button type="button" id="btnTest" class="small-button">测试连接</button><button type="button" id="retrySettings" class="text-button">重新读取</button></div><p id="setHint" class="notice" role="status" aria-live="polite">正在读取模型状态…</p></form>
         </section>
       </main>
